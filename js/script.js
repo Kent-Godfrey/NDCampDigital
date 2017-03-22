@@ -1,0 +1,10 @@
+//var c = document.getElementById("mainCanvas");
+var c = $("#mainCanvas");
+//var ctx = c.getContext.("2d");
+var ctx = c.get(0).getContext("2d");
+//Sets width of canvas to the width&height of browser window. get(0). Only works with CSS reset.
+c.attr("width", $(window).get(0).innerWidth); c.attr("height", $(window).get(0).innerHeight);
+//testing
+ctx.fillRect(0, 0, c.width(), c.height());
+
+
