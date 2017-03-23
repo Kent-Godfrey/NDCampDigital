@@ -21,13 +21,11 @@
 }
 
 .twitter-feed {
-  width: 100%;
   height: 100vh;
   background: blue;
 }
 
 .canvas-container {
-  width: 100%;
   height: 100vh;
   background: green;
 }

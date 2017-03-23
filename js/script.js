@@ -9,10 +9,11 @@ c.attr("width", $(window).get(0).innerWidth); c.attr("height", $(window).get(0).
 //Uses JQuery Resize function to allow the canvas dimensions to be dynamically changed and updated.
 $(window).resize(resizeCanvas);
 	function resizeCanvas() {
-		c.attr("width", $(window).get(0).innerWidth); 
-		c.attr("height", $(window).get(0).innerHeight); 
-		//Placeholder rectangle. 
+
+		c.attr("width", $('.canvas-container').width());
+		c.attr("height", $('.canvas-container').height() - 20); // TODO Figure this out - 100vh height adds scrollbars on both axes 
+		//Placeholder rectangle.
 		ctx.fillRect(0, 0, c.width(), c.height());
-	}; 
+	};
 
 resizeCanvas();
