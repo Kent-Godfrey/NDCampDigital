@@ -1,0 +1,27 @@
+body {
+  /*overflow: hidden;*/
+  /*width: 100vw;
+  height: 100vh;*/
+}
+
+/*.container {
+  width: 100%;
+  height: 100vh;
+  background: red;
+}*/
+
+div {
+  display: inline;
+}
+
+.twitter-feed {
+  width: 20%;
+  height: 100vh;
+  background: blue;
+}
+
+.canvas-container {
+  width: 80%;
+  height: 100vh;
+  background: green;
+}
