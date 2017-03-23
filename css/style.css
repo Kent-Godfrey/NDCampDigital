@@ -1,27 +1,33 @@
-body {
-  /*overflow: hidden;*/
-  /*width: 100vw;
-  height: 100vh;*/
-}
-
-/*.container {
-  width: 100%;
+/*body {
+  overflow: hidden;
+  width: 100vw;
   height: 100vh;
-  background: red;
 }*/
 
-div {
-  display: inline;
+.container {
+  width: 100%; /* This is used to undo the width rule given by the Skeleton framework */
+  max-width: none; /* This is used to undo the max-width rule given by the Skeleton framework */
+  margin: 0; /* This is used to undo the margin rule given by the Skeleton framework */
+
+  height: 100vh;
+}
+
+.columns {
+  margin: 0; /* This is used to undo the margin-left rule given by the Skeleton framework */
+}
+
+.nine.columns {
+  width: 78%; /* This is used to undo the width rule given by the Skeleton framework */
 }
 
 .twitter-feed {
-  width: 20%;
+  width: 100%;
   height: 100vh;
   background: blue;
 }
 
 .canvas-container {
-  width: 80%;
+  width: 100%;
   height: 100vh;
   background: green;
 }
