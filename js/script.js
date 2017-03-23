@@ -16,6 +16,3 @@ $(window).resize(resizeCanvas);
 	}; 
 
 resizeCanvas();
-
-
-
