@@ -3,17 +3,17 @@ $(document).ready(function(){
 var c = $("#mainCanvas");
 //var ctx = c.getContext.("2d");
 var ctx = c.get(0).getContext("2d");
-//Sets width of canvas to the width&height of browser window. get(0). Only works with CSS reset.
-// c.attr("width", $(window).get(0).innerWidth); c.attr("height", $(window).get(0).innerHeight);
-// //Uses JQuery Resize function to allow the canvas dimensions to be dynamically changed and updated.
-// $(window).resize(resizeCanvas);
-//   function resizeCanvas() {
-//     c.attr("width", $(window).get(0).innerWidth);
-//     c.attr("height", $(window).get(0).innerHeight);
-//     //Placeholder rectangle.
-//     ctx.fillRect(0, 0, c.width(), c.height());
-//   }
-// resizeCanvas();
+// Sets width of canvas to the width&height of browser window. get(0). Only works with CSS reset.
+c.attr("width", $(window).get(0).innerWidth); c.attr("height", $(window).get(0).innerHeight);
+//Uses JQuery Resize function to allow the canvas dimensions to be dynamically changed and updated.
+$(window).resize(resizeCanvas);
+  function resizeCanvas() {
+    c.attr("width", $('.canvas-container').width());
+    c.attr("height", $('.canvas-container').height());
+    //Placeholder rectangle.
+    ctx.fillRect(0, 0, c.width(), c.height());
+  }
+resizeCanvas();
 
 // NOTE Resizing the window causes canvas to clear unless functions are inside the resize function
 var x = c.width();
@@ -44,14 +44,14 @@ function drawCircle () {
 
 	var radius = 10;
 
-	ctx.beginPath();
-	ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
-	ctx.closePath();
-	ctx.fill();
-
-  if (centreY === y) {
+	if (centreY >= y - radius) {
     stopBoulder();
-  }
+  } else {
+		ctx.beginPath();
+		ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
+		ctx.closePath();
+		ctx.fill();
+	}
 }
 
 function getProjectileY(x) {
