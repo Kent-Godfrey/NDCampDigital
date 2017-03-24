@@ -11,9 +11,9 @@ $(window).resize(resizeCanvas);
 	function resizeCanvas() {
 
 		c.attr("width", $('.canvas-container').width());
-		c.attr("height", $('.canvas-container').height() - 20); // TODO Figure this out - 100vh height adds scrollbars on both axes 
+		c.attr("height", $('.canvas-container').height()); // TODO Figure this out - 100vh height adds scrollbars on both axes
 		//Placeholder rectangle.
-		ctx.fillRect(0, 0, c.width(), c.height());
+		//ctx.fillRect(0, 0, c.width(), c.height());
 	};
 
 resizeCanvas();
