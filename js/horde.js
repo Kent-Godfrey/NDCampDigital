@@ -8,11 +8,11 @@ c.attr("width", $(window).get(0).innerWidth); c.attr("height", $(window).get(0).
 //Uses JQuery Resize function to allow the canvas dimensions to be dynamically changed and updated.
 $(window).resize(resizeCanvas);
 	function resizeCanvas() {
-		c.attr("width", $(window).get(0).innerWidth); 
-		c.attr("height", $(window).get(0).innerHeight); 
-		//Placeholder rectangle. 
+		c.attr("width", $(window).get(0).innerWidth);
+		c.attr("height", $(window).get(0).innerHeight);
+		//Placeholder rectangle.
 		ctx.fillRect(0, 0, c.width(), c.height());
-	}; 
+	};
 resizeCanvas();
 
 //Vars created to easily access the canvas W & H
@@ -24,7 +24,7 @@ var playAnimation= true;
 var startButton = $("#startAnimation");
 var stopButton = $("#stopAnimation");
 //Start position of Square
-var sqrx = 1410; 
+var sqrx = 1410;
 //hides stop button on load
 stopButton.hide();
 //Animation timer
@@ -55,7 +55,7 @@ startButton.click(function(){
 });
 //Stop button logic *In Progress*
 stopButton.click(function(){
-	
+
 	$(this).hide();
 	startButton.show();
 

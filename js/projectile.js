@@ -11,7 +11,7 @@ $(window).resize(resizeCanvas);
     c.attr("width", $('.canvas-container').width());
     c.attr("height", $('.canvas-container').height());
     //Placeholder rectangle.
-    ctx.fillRect(0, 0, c.width(), c.height());
+    // ctx.fillRect(0, 0, c.width(), c.height());
   }
 resizeCanvas();
 
@@ -33,10 +33,30 @@ var y = c.height();
 // 	ctx.stroke();
 // })()
 
+$('#fire').click(fire);
+
+var fireBoulder;
+
+function fire () {
+  fireBoulder = setInterval(drawCircle, 33);
+  resetBoulder();
+}
+
+// NOTE stopBoulder and resetBoulder may need to be merged
+function stopBoulder () {
+  clearInterval(fireBoulder);
+}
+
+function resetBoulder () {
+  centreX = 0;
+  centreY = 0;
+}
+
 // Draw circle along trajectory --------------------------------------------
 var centreX = 0;
 var endX = y / Math.pow(x, 2);
 function drawCircle () {
+  // ctx.clearRect(0, 0, x, y);
 	var speed = 10;
 
 	centreX += speed;
@@ -44,23 +64,19 @@ function drawCircle () {
 
 	var radius = 10;
 
-	if (centreY >= y - radius) {
-    stopBoulder();
-  } else {
+  if (centreY <= 300 - radius) {
+    ctx.clearRect(0,0, x, y);
 		ctx.beginPath();
 		ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
 		ctx.closePath();
 		ctx.fill();
-	}
+  } else {
+    stopBoulder();
+    // resetBoulder();
+  }
 }
 
-function getProjectileY(x) {
+function getProjectileY (x) {
 	return Math.pow(x, 2);
 }
-
-function stopBoulder () {
-  clearInterval(fireBoulder);
-}
-
-var fireBoulder = setInterval(drawCircle, 33);
 });
