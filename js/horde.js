@@ -8,8 +8,8 @@ c.attr("width", $(window).get(0).innerWidth); c.attr("height", $(window).get(0).
 //Uses JQuery Resize function to allow the canvas dimensions to be dynamically changed and updated.
 $(window).resize(resizeCanvas);
 	function resizeCanvas() {
-		c.attr("width", $(window).get(0).innerWidth);
-		c.attr("height", $(window).get(0).innerHeight);
+		c.attr("width", $('.canvas-container').width());
+      c.attr("height", $('.canvas-container').height());
 		//Placeholder rectangle.
 		ctx.fillRect(0, 0, c.width(), c.height());
 	};
@@ -18,26 +18,28 @@ resizeCanvas();
 //Vars created to easily access the canvas W & H
 var canvasWidth = c.width();
 var canvasHeight= c.height();
+console.log(canvasWidth);
 
 //Vars to allow buttons to work for reset functionality
 var playAnimation= true;
 var startButton = $("#startAnimation");
 var stopButton = $("#stopAnimation");
 //Start position of Square
-var sqrx = 1410;
-//hides stop button on load
-stopButton.hide();
+var sqrx = 0;
+var rectSize = 50;
+
+
 //Animation timer
 function animate(){
 	//update Squares X pos
-	sqrx--;
+	sqrx++;
 	//Clears canvas clean
 	ctx.clearRect(0,0,canvasWidth, canvasHeight);
 	//Draws Square in new Position
-	ctx.fillRect(sqrx,700,40,50);
+	ctx.fillRect(canvasWidth- sqrx,690,rectSize,rectSize);
 	setTimeout(animate,33);
 	//save state when the cavnas is first drawn.
-	ctx.save();
+	//ctx.save();
 };
 animate();
 
