@@ -44,13 +44,15 @@ $(document).ready(function(){
   function fire () {
     stopBoulder();
     resetBoulder();
-    fireBoulder = setInterval(drawCircle, 1000 / 30);
+    // fireBoulder = setInterval(drawCircle, 1000 / 30);
+
+    requestAnimationFrame(drawCircle);
 
   }
 
   // NOTE stopBoulder and resetBoulder may need to be merged
   function stopBoulder () {
-    clearInterval(fireBoulder);
+    cancelAnimationFrame(fireBoulder);
   }
 
   function resetBoulder () {
@@ -79,6 +81,8 @@ $(document).ready(function(){
     } else {
       stopBoulder();
     }
+
+    requestAnimationFrame(drawCircle);
   }
 
   function getProjectileY (x) {
