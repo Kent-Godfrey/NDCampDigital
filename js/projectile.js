@@ -33,8 +33,11 @@ $(document).ready(function(){
   // 	ctx.stroke();
   // })()
 
+  var boulderAnimation;
+
   var boulder = {
-    "xpos":0
+    "xpos":0,
+    "ypos":0
   }
 
   $('#fire').click(fire);
@@ -44,45 +47,42 @@ $(document).ready(function(){
   function fire () {
     stopBoulder();
     resetBoulder();
-    // fireBoulder = setInterval(drawCircle, 1000 / 30);
-
-    requestAnimationFrame(drawCircle);
-
+    boulderAnimation = requestAnimationFrame(drawCircle);
   }
 
   // NOTE stopBoulder and resetBoulder may need to be merged
   function stopBoulder () {
-    cancelAnimationFrame(fireBoulder);
+    cancelAnimationFrame(boulderAnimation);
   }
 
   function resetBoulder () {
-    centreX = 0;
-    centreY = 0;
+    boulder.xpos = 0;
+    boulder.ypos = 0;
   }
 
   // Draw circle along trajectory --------------------------------------------
   var centreX = boulder.xpos;
   var endX = y / Math.pow(x, 2);
   function drawCircle () {
-    // ctx.clearRect(0, 0, x, y);
   	var speed = 10;
 
-  	centreX += speed;
-  	var centreY = getProjectileY(centreX) * endX + 80; // NOTE +80 changes height from top of canvas
-
+  	boulder.xpos += speed;
+  	boulder.ypos = getProjectileY(boulder.xpos) * endX;
   	var radius = 10;
 
-    if (centreY <= 300 - radius) {
+    if (boulder.ypos <= y - radius) {
       ctx.clearRect(0,0, x, y);
   		ctx.beginPath();
-  		ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
+  		ctx.arc(boulder.xpos, boulder.ypos, radius, 0, 2 * Math.PI);
   		ctx.closePath();
   		ctx.fill();
+
+
+      requestAnimationFrame(drawCircle);
     } else {
       stopBoulder();
     }
 
-    requestAnimationFrame(drawCircle);
   }
 
   function getProjectileY (x) {
