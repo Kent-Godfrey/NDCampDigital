@@ -18,57 +18,35 @@ resizeCanvas();
 //Vars created to easily access the canvas W & H
 var canvasWidth = c.width();
 var canvasHeight= c.height();
-console.log(canvasWidth);
 
-//Vars to allow buttons to work for reset functionality
-var playAnimation= true;
-var startButton = $("#startAnimation");
-var stopButton = $("#stopAnimation");
-//Start position of Square
-var sqrx = 0;
-var rectSize = 50;
+//horde properties 
+var horde = {
+	"sqrx":0,
+	"rectSize":50,
+	"startPos":canvasWidth,
+}
 
-
-//Animation timer
+//Animation
 function animate(){
+	var sqrActPos = canvasWidth- horde.sqrx;
 	//update Squares X pos
-	sqrx++;
+	horde.sqrx++;
 	//Clears canvas clean
 	ctx.clearRect(0,0,canvasWidth, canvasHeight);
 	//Draws Square in new Position
-	ctx.fillRect(canvasWidth- sqrx,690,rectSize,rectSize);
-	setTimeout(animate,33);
-	//save state when the cavnas is first drawn.
-	//ctx.save();
+	ctx.fillRect(canvasWidth- horde.sqrx,690,horde.rectSize,horde.rectSize);
+	//Controlls speed
+	setTimeout(animate,120);
+	canvasWidth - horde.sqrx;
+	//console.log(horde.sqrx);
+	console.log(horde.startPos);
+	console.log(sqrActPos);
+	if(sqrActPos = 0){
+
+	}
 };
 animate();
 
-//Start button logic *In Progress*
 
-startButton.click(function(){
-	$(this).hide();
-	stopButton.show();
-
-	playAnimation = true;
-	if(playAnimation){
-	setTimeout(animate,33);
-};
-	animate();
-});
-//Stop button logic *In Progress*
-stopButton.click(function(){
-
-	$(this).hide();
-	startButton.show();
-
-	playAnimation = false;
-	if(playAnimation){
-	setTimeout(animate,33);
-	};
-});
-
-/*if(playAnimation){
-	setTimeout(animate,33);
-}; */
 
 });
