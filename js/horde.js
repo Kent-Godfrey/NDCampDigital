@@ -22,6 +22,7 @@ var canvasHeight= c.height();
 var skele = new Image();
 skele.src = 'images/skeletonAnimation.png';
 skele.addEventListener("load", loadImage, false);
+imageObj.src = 'images/tower.png';
 
 function loadImage(e){
 	animate();
@@ -50,7 +51,7 @@ function animate(){
 	//Draws Square in new Position
 	//ctx.fillRect(canvasWidth- horde.sqrx,690,horde.rectSize,horde.rectSize);
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos,690,horde.frameWidth,horde.frameHeight);
-	
+	ctx.drawImage(imageObj, 0, 50);
 	horde.shift+= horde.frameWidth +1;
 
 	if (horde.currentFrame == horde.totalFrames){
