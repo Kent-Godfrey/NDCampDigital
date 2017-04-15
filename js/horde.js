@@ -19,10 +19,13 @@ resizeCanvas();
 //Vars created to easily access the canvas W & H
 var canvasWidth = c.width();
 var canvasHeight= c.height();
+//Initialize images
 var skele = new Image();
 skele.src = 'images/skeletonAnimation.png';
 skele.addEventListener("load", loadImage, false);
 imageObj.src = 'images/tower.png';
+var backdrop = new Image();
+backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
 
 function loadImage(e){
 	animate();
@@ -38,41 +41,49 @@ var horde = {
 	"frameHeight":47,
 	"totalFrames":9,
 	"currentFrame":0,
-
 }
 
 //Animation
 function animate(){
+	//calc for actual position of horde
 	var sqrActPos = canvasWidth- horde.sqrx;
 	//update Squares X pos
 	horde.sqrx++;
+	//draws background
+	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
 	//Clears canvas clean
 	ctx.clearRect(0,0,canvasWidth, canvasHeight);
 	//Draws Square in new Position
 	//ctx.fillRect(canvasWidth- horde.sqrx,690,horde.rectSize,horde.rectSize);
-	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos,690,horde.frameWidth,horde.frameHeight);
+	
+	ctx.drawImage(backdrop,0,0,canvasWidth,canvasHeight);
+	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(imageObj, 0, 50);
+	
+	//shifts through sprite sheet (animates)
 	horde.shift+= horde.frameWidth +1;
 
+	//resets spritesheet. Loops through
 	if (horde.currentFrame == horde.totalFrames){
 
 		horde.shift = 0;
 		horde.currentFrame= 0;
 	}
-
+	//loops through each frame. frame properties stated in horde Object.
 	horde.currentFrame++;
+	
 	//SPEAK TO THE TEAM ABOUT THIS.
 	//requestAnimationFrame(animate);
 
 	//Controlls speed
 	setTimeout(animate,120);
-	canvasWidth - horde.sqrx;
+	//canvasWidth - horde.sqrx;
 	//console.log(horde.sqrx);
 	console.log(horde.startPos);
 	console.log(sqrActPos);
 	
 };
-animate();
+
 
 
 
