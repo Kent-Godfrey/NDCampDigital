@@ -60,9 +60,8 @@ function animate(){
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos+40,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos+80,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(imageObj, 0, 50);
-	ctx.drawImage(imageObj, 0, 50);
-
 	
+
 	//shifts through sprite sheet (animates)
 	horde.shift+= horde.frameWidth +1;
 
@@ -80,6 +79,10 @@ function animate(){
 
 	//Controlls speed
 	setTimeout(animate,120);
+	//Destroy horde then reset. Need to merge code with David.
+	if(boulder.ypos == sqrActPos){
+		sqrActPos = canvasWidth+5;
+	}
 	//canvasWidth - horde.sqrx;
 	//console.log(horde.sqrx);
 	console.log(horde.startPos);
