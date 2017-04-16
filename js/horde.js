@@ -21,7 +21,7 @@ var canvasWidth = c.width();
 var canvasHeight= c.height();
 //Initialize images
 var skele = new Image();
-skele.src = 'images/skeletonAnimation.png';
+skele.src = 'images/skeleGob.png';
 skele.addEventListener("load", loadImage, false);
 imageObj.src = 'images/tower.png';
 var backdrop = new Image();
@@ -37,8 +37,8 @@ var horde = {
 	"rectSize":50,
 	"startPos":canvasWidth,
 	"shift":0,
-	"frameWidth":32.1,
-	"frameHeight":47,
+	"frameWidth":31.5,
+	"frameHeight":94,
 	"totalFrames":9,
 	"currentFrame":0,
 }
@@ -46,19 +46,22 @@ var horde = {
 //Animation
 function animate(){
 	//calc for actual position of horde
-	var sqrActPos = canvasWidth- horde.sqrx;
+	var sqrActPos = canvasWidth- horde.sqrx+5;
 	//update Squares X pos
 	horde.sqrx++;
 	//draws background
 	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
 	//Clears canvas clean
 	ctx.clearRect(0,0,canvasWidth, canvasHeight);
-	//Draws Square in new Position
-	//ctx.fillRect(canvasWidth- horde.sqrx,690,horde.rectSize,horde.rectSize);
 	
+	//drawsHorde---centre of horde = sqrActPos+40
 	ctx.drawImage(backdrop,0,0,canvasWidth,canvasHeight);
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
+	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos+40,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
+	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos+80,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(imageObj, 0, 50);
+	ctx.drawImage(imageObj, 0, 50);
+
 	
 	//shifts through sprite sheet (animates)
 	horde.shift+= horde.frameWidth +1;
