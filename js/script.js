@@ -40,7 +40,7 @@ $(document).ready(function(){
     "yPos": 0,
 		"radius": 10,
 		"velocity": 10,
-    "landingPos": canvasHeight / Math.pow(canvasWidth, 2), // Refers to the x-coordinate at which the bould lands
+    "landingPos": canvasHeight / Math.pow(canvasWidth, 2), // Refers to the x-coordinate at which the boulder lands
     "landingPosCalculated": false,
     "animate": false
   }
@@ -155,7 +155,7 @@ $(document).ready(function(){
 
       if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
         boulder.landingPosCalculated = true;
-        boulder.landingPos = canvasHeight / Math.pow(sqrActPos, 2), // Refers to the x-coordinate at which the bould lands;
+        boulder.landingPos = canvasHeight / Math.pow(sqrActPos, 2); // Refers to the x-coordinate at which the boulder lands;
       }
       // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
 
