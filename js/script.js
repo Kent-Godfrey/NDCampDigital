@@ -153,15 +153,11 @@ $(document).ready(function(){
     // Animate boulder ---------------------------------------------------------
     if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
 
-      // if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
-      //   boulder.landingPosCalculated = true;
-      //   boulder.landingPos = sqrActPos;
-      //   console.log(sqrActPos);
-      //   console.log(boulder.landingPos);
-      //   console.log(boulder.landingPosCalculated);
-      // }
+      if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
+        boulder.landingPosCalculated = true;
+        boulder.landingPos = canvasHeight / Math.pow(sqrActPos, 2), // Refers to the x-coordinate at which the bould lands;
+      }
       // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
-      // TODO Figure out why this IF statement doesn't work
 
       drawCircle(boulder.xPos, boulder.yPos);
 
