@@ -31,7 +31,7 @@ function loadImage(e){
 	animate();
 }
 
-//horde properties 
+//horde properties
 var horde = {
 	"sqrx":0,
 	"rectSize":50,
@@ -53,14 +53,14 @@ function animate(){
 	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
 	//Clears canvas clean
 	ctx.clearRect(0,0,canvasWidth, canvasHeight);
-	
+
 	//drawsHorde---centre of horde = sqrActPos+40
 	ctx.drawImage(backdrop,0,0,canvasWidth,canvasHeight);
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos+40,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(skele, horde.shift,0,horde.frameWidth,horde.frameHeight,sqrActPos+80,canvasHeight*0.85,horde.frameWidth,horde.frameHeight);
 	ctx.drawImage(imageObj, 0, 50);
-	
+
 
 	//shifts through sprite sheet (animates)
 	horde.shift+= horde.frameWidth +1;
@@ -73,7 +73,7 @@ function animate(){
 	}
 	//loops through each frame. frame properties stated in horde Object.
 	horde.currentFrame++;
-	
+
 	//SPEAK TO THE TEAM ABOUT THIS.
 	//requestAnimationFrame(animate);
 
@@ -87,7 +87,7 @@ function animate(){
 	//console.log(horde.sqrx);
 	console.log(horde.startPos);
 	console.log(sqrActPos);
-	
+
 };
 
 
