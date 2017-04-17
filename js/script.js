@@ -36,29 +36,30 @@ $(document).ready(function(){
   var boulder = {
     "xOrigin": 0,
     "yOrigin": 0,
-    "xPos":0,
-    "yPos":0,
-		"radius":10,
-		"velocity":10,
+    "xPos": 0,
+    "yPos": 0,
+		"radius": 10,
+		"velocity": 10,
     "landingPos": canvasHeight / Math.pow(canvasWidth, 2), // Refers to the x-coordinate at which the bould lands
+    "landingPosCalculated": false,
+    "animate": false
   }
 
   var horde = {
-  	"sqrx":0,
-  	"rectSize":50,
-  	"startPos":canvasWidth,
-  	"shift":0,
-  	"frameWidth":31.5,
-  	"frameHeight":94,
-  	"totalFrames":9,
-  	"currentFrame":0,
+  	"sqrx": 0,
+  	"rectSize": 50,
+  	"startPos": canvasWidth,
+  	"shift": 0,
+  	"frameWidth": 31.5,
+  	"frameHeight": 94,
+  	"totalFrames": 9,
+  	"currentFrame": 0,
   }
 
   var boulderAnimation;
 
-  var fireBoulder = false;
   $('#fire').click(function () {
-    fireBoulder = true;
+    boulder.animate = true;
   }); // When the fire button is clicked the fire function is called
 
   function fire () {
@@ -117,7 +118,7 @@ $(document).ready(function(){
 
   	//drawsHorde---centre of horde = sqrActPos+40
   	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
-  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos,canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
+  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
   	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
   	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
   	ctx.drawImage(tower, 0, 50);
@@ -141,7 +142,7 @@ $(document).ready(function(){
   	// //Controlls speed
   	// setTimeout(animate, 120);
   	//Destroy horde then reset. Need to merge code with David.
-  	if(boulder.ypos >= sqrActPos){
+  	if(boulder.yPos >= sqrActPos){
   		sqrActPos = canvasWidth + 5;
   	}
   	//canvasWidth - horde.sqrx;
@@ -149,14 +150,27 @@ $(document).ready(function(){
   	// console.log(horde.startPos);
   	// console.log(sqrActPos);
 
-    if (fireBoulder) { // If the fire boulder variable is true, the boulder will animate
+    // Animate boulder ---------------------------------------------------------
+    if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
+
+      // if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
+      //   boulder.landingPosCalculated = true;
+      //   boulder.landingPos = sqrActPos;
+      //   console.log(sqrActPos);
+      //   console.log(boulder.landingPos);
+      //   console.log(boulder.landingPosCalculated);
+      // }
+      // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
+      // TODO Figure out why this IF statement doesn't work
+
       drawCircle(boulder.xPos, boulder.yPos);
 
       boulder.xPos += boulder.velocity; // This updates the boulders x position
       boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
 
       if (boulder.yPos >= canvasHeight - boulder.radius) {
-        console.log('test');
+        boulder.animate = false;
+        boulder.landingPosCalculated = false;
         resetBoulder();
       }
     }
