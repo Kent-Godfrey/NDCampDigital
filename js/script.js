@@ -20,6 +20,7 @@ $(document).ready(function(){
   var canvasHeight = c.height();
 
 	// Initialise images ---------------------------------------------------------
+
 	var skele = new Image();
 	skele.src = 'images/both.png';
 	var tower = new Image();
@@ -35,6 +36,8 @@ $(document).ready(function(){
   // Initialise JSON objects ---------------------------------------------------
 
   var boulder = {
+    // All boulder properties are given here to prevent having to look elsewhere in the code if any changes are required
+    // JSON objects found here: https://www.w3schools.com/js/js_json_objects.asp
     "xOrigin": 0,
     "yOrigin": 0,
     "xPos": 0,
@@ -73,10 +76,12 @@ $(document).ready(function(){
     stopBoulder();
     resetBoulder();
     boulderAnimation = requestAnimationFrame(fireBoulder);
+    // requestAnimationFrame found here: https://css-tricks.com/using-requestanimationframe/
   }
 
   function stopBoulder () {
     cancelAnimationFrame(boulderAnimation);
+    // cancelAnimationFrame found here: https://css-tricks.com/using-requestanimationframe/
   }
 
   function resetBoulder () {
