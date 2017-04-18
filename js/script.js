@@ -21,12 +21,13 @@ $(document).ready(function(){
 
 	// Initialise images ---------------------------------------------------------
 	var skele = new Image();
-	skele.src = 'images/skeleGob.png';
-	// skele.addEventListener("load", loadImage, false);
+	skele.src = 'images/both.png';
 	var tower = new Image();
 	tower.src = 'images/tower.png';
 	var backdrop = new Image(); // NOTE Maybe this could be a CSS background instead? So that the background doesn't have to be redrawn each frame?
 	backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
+  var fireBall = new Image();
+  fireBall.src = 'images/fireBall.png';
 
 	// Draws background ----------------------------------------------------------
 	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
@@ -42,15 +43,21 @@ $(document).ready(function(){
 		"velocity": 10,
     "landingPos": canvasHeight / Math.pow(canvasWidth, 2), // Refers to the x-coordinate at which the boulder lands
     "landingPosCalculated": false,
-    "animate": false
+    "animate": false,
+    "shift": 0,
+    "frameWidth": 42.7,
+    "frameHeight": 36,
+    "totalFrames": 8,
+    "currentFrame": 0,
   }
 
   var horde = {
   	"sqrx": 0,
+    "hordeY": canvasHeight * 0.85,
   	"rectSize": 50,
   	"startPos": canvasWidth,
   	"shift": 0,
-  	"frameWidth": 31.5,
+  	"frameWidth": 32.1,
   	"frameHeight": 94,
   	"totalFrames": 9,
   	"currentFrame": 0,
@@ -93,11 +100,23 @@ $(document).ready(function(){
   // }
 
   // Draw circle ---------------------------------------------------------------
-  function drawCircle (centreX, centreY) {
-    ctx.beginPath();
-    ctx.arc(centreX, centreY, boulder.radius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.fill();
+  function drawCircle () {
+    ctx.drawImage(fireBall, boulder.shift, 0, boulder.frameWidth, boulder.frameHeight, boulder.xPos, boulder.yPos, boulder.frameWidth, boulder.frameHeight);
+    //shifts through sprite sheet (animates)
+    boulder.shift += boulder.frameWidth + 1;
+
+    //resets spritesheet. Loops through
+    if (boulder.currentFrame == boulder.totalFrames){
+
+      boulder.shift = 0;
+      boulder.currentFrame= 0;
+    }
+    //loops through each frame. frame properties stated in boulder Object.
+    boulder.currentFrame++;
+    //ctx.beginPath();
+    //ctx.arc(centreX, centreY, boulder.radius, 0, 2 * Math.PI);
+    //ctx.closePath();
+    //ctx.fill();
   }
 
   // Return the y position for the boulder -------------------------------------
@@ -118,9 +137,9 @@ $(document).ready(function(){
 
   	//drawsHorde---centre of horde = sqrActPos+40
   	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
-  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
-  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
-  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, canvasHeight * 0.85, horde.frameWidth, horde.frameHeight);
+  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.hordeY, horde.frameWidth, horde.frameHeight);
+  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
+  	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
   	ctx.drawImage(tower, 0, 50);
 
 
@@ -148,7 +167,8 @@ $(document).ready(function(){
   	//canvasWidth - horde.sqrx;
   	//console.log(horde.sqrx);
   	// console.log(horde.startPos);
-  	// console.log(sqrActPos);
+  	//console.log(sqrActPos);
+
 
     // Animate boulder ---------------------------------------------------------
     if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
@@ -169,6 +189,7 @@ $(document).ready(function(){
         boulder.landingPosCalculated = false;
         resetBoulder();
       }
+      //console.log(boulder.yPos);
     }
 
     requestAnimationFrame(animate); // TODO Figure method to slow down movement of skeletons
