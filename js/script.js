@@ -1,3 +1,10 @@
+// TODO list
+/* Line 17: "TODO Figure this out - 100vh height adds scrollbars on both axes"
+*  Line 172: "TODO Fix this reset!"
+*  Line 190: "TODO Change this to location of where the horde WILL be (refer to Trello notes for method)"
+*  Line 204: "TODO Figure method to slow down movement of skeletons"
+*/
+
 $(document).ready(function(){
   //var c = document.getElementById("mainCanvas");
   var c = $("#mainCanvas");
@@ -66,9 +73,9 @@ $(document).ready(function(){
 
   var boulderAnimation;
 
-  $('#fire').click(function () {
+  $('#fire').click(function () { // When the fire button is clicked the fire function is called
     boulder.animate = true;
-  }); // When the fire button is clicked the fire function is called
+  });
 
   function fire () {
     stopBoulder();
@@ -129,53 +136,48 @@ $(document).ready(function(){
 
   // Animate the scene ---------------------------------------------------------
   var countdown = horde.speed;
+  var sqrActPos = canvasWidth - horde.sqrx + 5;
   function animate () {
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas from the previous frame
+    ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
+    ctx.drawImage(tower, 0, 50); // Draws the tower
+
+
     countdown--;
     if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
       countdown = horde.speed;
       //calc for actual position of horde
-    	var sqrActPos = canvasWidth - horde.sqrx + 5;
+    	sqrActPos = canvasWidth - horde.sqrx + 5;
     	//update Squares X pos
     	horde.sqrx++;
-    	//draws background
-    	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
-    	//Clears canvas clean
-    	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    	//drawsHorde---centre of horde = sqrActPos+40
-    	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
-    	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.hordeY, horde.frameWidth, horde.frameHeight);
-    	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
-    	ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
-    	ctx.drawImage(tower, 0, 50);
 
 
-    	//shifts through sprite sheet (animates)
-    	horde.shift += horde.frameWidth + 1;
 
-    	//resets spritesheet. Loops through
-    	if (horde.currentFrame == horde.totalFrames){
+      //shifts through sprite sheet (animates)
+      horde.shift += horde.frameWidth + 1;
 
-    		horde.shift = 0;
-    		horde.currentFrame= 0;
-    	}
-    	//loops through each frame. frame properties stated in horde Object.
-    	horde.currentFrame++;
+      //resets spritesheet. Loops through
+      if (horde.currentFrame == horde.totalFrames) {
 
-    	//SPEAK TO THE TEAM ABOUT THIS.
-    	//requestAnimationFrame(animate);
-
-    	// //Controlls speed
-    	// setTimeout(animate, 120);
-    	//Destroy horde then reset. Need to merge code with David.
-    	if(boulder.yPos >= sqrActPos){
-    		sqrActPos = canvasWidth + 5;
-    	}
-    	//canvasWidth - horde.sqrx;
-    	//console.log(horde.sqrx);
-    	// console.log(horde.startPos);
-    	//console.log(sqrActPos);
+      	horde.shift = 0;
+      	horde.currentFrame= 0;
+      }
+      //loops through each frame. frame properties stated in horde Object.
+      horde.currentFrame++;
     }
+
+    ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.hordeY, horde.frameWidth, horde.frameHeight);
+    ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
+    ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
+
+    //Destroy horde then reset.
+    if (boulder.yPos >= sqrActPos) { // TODO Fix this reset!
+    	sqrActPos = canvasWidth + 5;
+    }
+    //canvasWidth - horde.sqrx;
+    //console.log(horde.sqrx);
+    // console.log(horde.startPos);
+    //console.log(sqrActPos);
 
 
     // Animate boulder ---------------------------------------------------------
