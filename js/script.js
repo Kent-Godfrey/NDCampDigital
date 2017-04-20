@@ -33,7 +33,7 @@ $(document).ready(function(){
 	var backdrop = new Image(); // NOTE Maybe this could be a CSS background instead? So that the background doesn't have to be redrawn each frame?
 	backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
   var fireBall = new Image();
-  fireBall.src = 'images/fireBall.png';
+  fireBall.src = 'images/fireballv2.png';
 
 	// Draws background ----------------------------------------------------------
 	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
@@ -52,9 +52,9 @@ $(document).ready(function(){
     "landingPosCalculated": false,
     "animate": false,
     "shift": 0,
-    "frameWidth": 42.7,
-    "frameHeight": 36,
-    "totalFrames": 8,
+    "frameWidth": 67,
+    "frameHeight": 59,
+    "totalFrames": 6,
     "currentFrame": 0
   }
 
@@ -109,7 +109,7 @@ $(document).ready(function(){
   //   }
   // }
 
-  // Draw circle ---------------------------------------------------------------
+  // Draw boulder ---------------------------------------------------------------
   function drawCircle () {
     ctx.drawImage(fireBall, boulder.shift, 0, boulder.frameWidth, boulder.frameHeight, boulder.xPos, boulder.yPos, boulder.frameWidth, boulder.frameHeight);
     //shifts through sprite sheet (animates)
@@ -117,23 +117,18 @@ $(document).ready(function(){
 
     //resets spritesheet. Loops through
     if (boulder.currentFrame == boulder.totalFrames){
-
-      boulder.shift = 0;
-      boulder.currentFrame= 0;
+       boulder.shift = 0;
+       boulder.currentFrame= 0;
     }
     //loops through each frame. frame properties stated in boulder Object.
     boulder.currentFrame++;
-    //ctx.beginPath();
-    //ctx.arc(centreX, centreY, boulder.radius, 0, 2 * Math.PI);
-    //ctx.closePath();
-    //ctx.fill();
   }
-
+  
   // Return the y position for the boulder -------------------------------------
   function getBoulderY (x) {
   	return Math.pow(x, 2) * boulder.landingPos;
   }
-
+  
   // Animate the scene ---------------------------------------------------------
   var countdown = horde.speed;
   var sqrActPos = canvasWidth - horde.sqrx + 5;
@@ -142,17 +137,14 @@ $(document).ready(function(){
     ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
     ctx.drawImage(tower, 0, 50); // Draws the tower
 
-
     countdown--;
     if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
       countdown = horde.speed;
       //calc for actual position of horde
     	sqrActPos = canvasWidth - horde.sqrx + 5;
-    	//update Squares X pos
+    	
+      //update Squares X pos
     	horde.sqrx++;
-
-
-
       //shifts through sprite sheet (animates)
       horde.shift += horde.frameWidth + 1;
 
@@ -170,15 +162,12 @@ $(document).ready(function(){
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
 
-    //Destroy horde then reset.
-    if (boulder.yPos >= sqrActPos) { // TODO Fix this reset!
-    	sqrActPos = canvasWidth + 5;
-    }
-    //canvasWidth - horde.sqrx;
-    //console.log(horde.sqrx);
-    // console.log(horde.startPos);
-    //console.log(sqrActPos);
-
+   if(boulder.yPos + boulder.radius >= horde.hordeY ){
+   horde.sqrx = 0;
+}
+      console.log(horde.sqrx);
+      console.log(boulder.yPos+100);
+      console.log(horde.hordeY);
 
     // Animate boulder ---------------------------------------------------------
     if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
@@ -200,6 +189,7 @@ $(document).ready(function(){
         resetBoulder();
       }
     }
+
 
     requestAnimationFrame(animate); // TODO Figure method to slow down movement of skeletons
   }
