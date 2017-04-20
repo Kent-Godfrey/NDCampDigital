@@ -34,6 +34,9 @@ $(document).ready(function(){
 	backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
   var fireBall = new Image();
   fireBall.src = 'images/fireballv2.png';
+  var flames = new Image();
+  flames.src = 'images/flames.png';
+
 
 	// Draws background ----------------------------------------------------------
 	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
@@ -69,6 +72,15 @@ $(document).ready(function(){
   	"totalFrames": 9,
   	"currentFrame": 0,
     "speed": 2 // This prevents the horde from animating for x number of frames. In this case: 5
+  }
+
+  var explosion = {
+    "shift": 0,
+    "frameWidth": 106,
+    "frameHeight": 96,
+    "totalFrames": 9,
+    "currentFrame": 0,
+    "refresh": 10,
   }
 
   var boulderAnimation;
@@ -162,7 +174,16 @@ $(document).ready(function(){
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
 
+   // Horde reset & explosion animation----------------------------------------
    if(boulder.yPos + boulder.radius >= horde.hordeY ){
+        explosion.shift += explosion.frameWidth + 1;
+   //resets spritesheet. Loops through
+    if (explosion.currentFrame == explosion.totalFrames){
+       explosion.shift = 0;
+       explosion.currentFrame= 0;
+    }
+   explosion.currentFrame++;
+   ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);     
    horde.sqrx = 0;
 }
       console.log(horde.sqrx);
