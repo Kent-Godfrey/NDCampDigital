@@ -80,7 +80,7 @@ $(document).ready(function(){
     "frameHeight": 96,
     "totalFrames": 9,
     "currentFrame": 0,
-    "refresh": 10,
+    "refresh": 3,
   }
 
   var boulderAnimation;
@@ -143,6 +143,7 @@ $(document).ready(function(){
   
   // Animate the scene ---------------------------------------------------------
   var countdown = horde.speed;
+  var cycle = explosion.refresh;
   var sqrActPos = canvasWidth - horde.sqrx + 5;
   function animate () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas from the previous frame
@@ -175,21 +176,30 @@ $(document).ready(function(){
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
 
    // Horde reset & explosion animation----------------------------------------
+ 
+  cycle--;
+  console.log(explosion.refresh);
+
    if(boulder.yPos + boulder.radius >= horde.hordeY ){
-        explosion.shift += explosion.frameWidth + 1;
+        
+        if (cycle == 0){
+          cycle = explosion.refresh;
+          
+          explosion.shift += explosion.frameWidth + 1;
    //resets spritesheet. Loops through
     if (explosion.currentFrame == explosion.totalFrames){
        explosion.shift = 0;
        explosion.currentFrame= 0;
     }
    explosion.currentFrame++;
+ }
    ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);     
    horde.sqrx = 0;
 }
-      console.log(horde.sqrx);
-      console.log(boulder.yPos+100);
-      console.log(horde.hordeY);
-
+      //console.log(horde.sqrx);
+      //console.log(boulder.yPos+100);
+      //console.log(horde.hordeY);
+      
     // Animate boulder ---------------------------------------------------------
     if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
 
