@@ -135,12 +135,12 @@ $(document).ready(function(){
     //loops through each frame. frame properties stated in boulder Object.
     boulder.currentFrame++;
   }
-  
+
   // Return the y position for the boulder -------------------------------------
   function getBoulderY (x) {
   	return Math.pow(x, 2) * boulder.landingPos;
   }
-  
+
   // Animate the scene ---------------------------------------------------------
   var countdown = horde.speed;
   var cycle = explosion.refresh;
@@ -155,7 +155,7 @@ $(document).ready(function(){
       countdown = horde.speed;
       //calc for actual position of horde
     	sqrActPos = canvasWidth - horde.sqrx + 5;
-    	
+
       //update Squares X pos
     	horde.sqrx++;
       //shifts through sprite sheet (animates)
@@ -176,30 +176,28 @@ $(document).ready(function(){
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
 
    // Horde reset & explosion animation----------------------------------------
- 
-  cycle--;
-  console.log(explosion.refresh);
 
-   if(boulder.yPos + boulder.radius >= horde.hordeY ){
-        
-        if (cycle == 0){
+   if (boulder.yPos + boulder.radius >= horde.hordeY) {
+     cycle--;
+     console.log(cycle);
+        if (cycle == 0) {
           cycle = explosion.refresh;
-          
+
           explosion.shift += explosion.frameWidth + 1;
-   //resets spritesheet. Loops through
-    if (explosion.currentFrame == explosion.totalFrames){
-       explosion.shift = 0;
-       explosion.currentFrame= 0;
-    }
-   explosion.currentFrame++;
- }
-   ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);     
-   horde.sqrx = 0;
-}
+          //resets spritesheet. Loops through
+          if (explosion.currentFrame == explosion.totalFrames) {
+            explosion.shift = 0;
+            explosion.currentFrame = 0;
+          }
+          explosion.currentFrame++;
+        }
+        ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);
+        horde.sqrx = 0;
+      }
       //console.log(horde.sqrx);
       //console.log(boulder.yPos+100);
       //console.log(horde.hordeY);
-      
+
     // Animate boulder ---------------------------------------------------------
     if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
 
