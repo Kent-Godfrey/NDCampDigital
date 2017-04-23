@@ -2,7 +2,6 @@
 /* Line 17: "TODO Figure this out - 100vh height adds scrollbars on both axes"
 *  Line 172: "TODO Fix this reset!"
 *  Line 190: "TODO Change this to location of where the horde WILL be (refer to Trello notes for method)"
-*  Line 204: "TODO Figure method to slow down movement of skeletons"
 */
 
 $(document).ready(function(){
@@ -175,28 +174,6 @@ $(document).ready(function(){
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
 
-   // Horde resets & explosion animation----------------------------------------
-    if (boulder.yPos + boulder.radius >= horde.hordeY) {
-      cycle--;
-      console.log(cycle);
-        if (cycle == 0) {
-          cycle = explosion.refresh;
-
-          explosion.shift += explosion.frameWidth + 1;
-          //resets spritesheet. Loops through
-          if (explosion.currentFrame == explosion.totalFrames) {
-            explosion.shift = 0;
-            explosion.currentFrame = 0;
-          }
-          explosion.currentFrame++;
-        }
-        ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);
-        horde.sqrx = 0;
-      }
-
-    if (horde.sqrx == canvasWidth - 325) { // Resets the horde if they reach the tower
-      horde.sqrx = 0;
-    }
       //console.log(horde.sqrx);
       //console.log(boulder.yPos+100);
       //console.log(horde.hordeY);
@@ -215,15 +192,48 @@ $(document).ready(function(){
       boulder.xPos += boulder.velocity; // This updates the boulders x position
       boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
 
-      if (boulder.yPos >= horde.hordeY + boulder.radius) {
-        boulder.animate = false;
-        boulder.landingPosCalculated = false;
-        resetBoulder();
+      // if (boulder.yPos >= horde.hordeY + boulder.radius) {
+      //   boulder.animate = false;
+      //   boulder.landingPosCalculated = false;
+      //   resetBoulder();
+      // }
+    }
+
+    // Horde resets & explosion animation --------------------------------------
+    // Soft reset --------------------------------------------------------------
+    if (boulder.yPos + boulder.radius >= horde.hordeY) {
+      cycle--;
+      console.log(cycle);
+      if (cycle == 0) {
+        cycle = explosion.refresh;
+
+        explosion.shift += explosion.frameWidth + 1;
+        //resets spritesheet. Loops through
+        if (explosion.currentFrame == explosion.totalFrames) {
+          explosion.shift = 0;
+          explosion.currentFrame = 0;
+        }
+        explosion.currentFrame++;
       }
+      ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);
+      horde.sqrx = 0;
+
+      boulder.animate = false;
+      boulder.landingPosCalculated = false;
+      resetBoulder();
+    }
+
+    // Hard reset --------------------------------------------------------------
+    if (horde.sqrx == canvasWidth - 325) { // Resets the horde if they reach the tower
+      horde.sqrx = 0;
+
+      boulder.animate = false;
+      boulder.landingPosCalculated = false;
+      resetBoulder();
     }
 
 
-    requestAnimationFrame(animate); // TODO Figure method to slow down movement of skeletons
+    requestAnimationFrame(animate);
   }
 
   animate();
