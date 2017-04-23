@@ -71,7 +71,7 @@ $(document).ready(function(){
   	"frameHeight": 94,
   	"totalFrames": 9,
   	"currentFrame": 0,
-    "speed": 2 // This prevents the horde from animating for x number of frames. In this case: 5
+    "speed": 1 // This prevents the horde from animating for x number of frames. In this case: 5
   }
 
   var explosion = {
@@ -121,7 +121,7 @@ $(document).ready(function(){
   //   }
   // }
 
-  // Draw boulder ---------------------------------------------------------------
+  // Draw boulder --------------------------------------------------------------
   function drawCircle () {
     ctx.drawImage(fireBall, boulder.shift, 0, boulder.frameWidth, boulder.frameHeight, boulder.xPos, boulder.yPos, boulder.frameWidth, boulder.frameHeight);
     //shifts through sprite sheet (animates)
@@ -148,7 +148,7 @@ $(document).ready(function(){
   function animate () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas from the previous frame
     ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
-    ctx.drawImage(tower, 0, 50); // Draws the tower
+    ctx.drawImage(tower, 0, 100); // Draws the tower
 
     countdown--;
     if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
@@ -175,11 +175,10 @@ $(document).ready(function(){
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth, horde.frameHeight);
     ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth, horde.frameHeight);
 
-   // Horde reset & explosion animation----------------------------------------
-
-   if (boulder.yPos + boulder.radius >= horde.hordeY) {
-     cycle--;
-     console.log(cycle);
+   // Horde resets & explosion animation----------------------------------------
+    if (boulder.yPos + boulder.radius >= horde.hordeY) {
+      cycle--;
+      console.log(cycle);
         if (cycle == 0) {
           cycle = explosion.refresh;
 
@@ -194,6 +193,10 @@ $(document).ready(function(){
         ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);
         horde.sqrx = 0;
       }
+
+    if (horde.sqrx == canvasWidth - 325) { // Resets the horde if they reach the tower
+      horde.sqrx = 0;
+    }
       //console.log(horde.sqrx);
       //console.log(boulder.yPos+100);
       //console.log(horde.hordeY);
