@@ -30,8 +30,8 @@ $(document).ready(function(){
 	skele.src = 'images/both.png';
 	var tower = new Image();
 	tower.src = 'images/tower.png';
-	var backdrop = new Image(); // NOTE Maybe this could be a CSS background instead? So that the background doesn't have to be redrawn each frame?
-	backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
+	//var backdrop = new Image(); // NOTE Maybe this could be a CSS background instead? So that the background doesn't have to be redrawn each frame?
+	//backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
   var fireBall = new Image();
   fireBall.src = 'images/fireballv2.png';
   var flames = new Image();
@@ -39,7 +39,7 @@ $(document).ready(function(){
 
 
 	// Draws background ----------------------------------------------------------
-	ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
+	//ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
 
   // Initialise JSON objects ---------------------------------------------------
   var boulder = {
@@ -147,7 +147,7 @@ $(document).ready(function(){
   var sqrActPos = canvasWidth - horde.sqrx + 5;
   function animate () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas from the previous frame
-    ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
+    //ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
     ctx.drawImage(tower, 0, 100, canvasWidth * 0.3, canvasHeight - 100); // Draws the tower // TODO Determine scale factor - maybe this should be global?
 
     countdown--;

@@ -27,6 +27,7 @@
 
 .canvas-container {
   height: 100vh;
-  
+  background-image: url("http://i.imgur.com/PhFQkdl.png");
+  background-size: 100% 100%;
   
 }
