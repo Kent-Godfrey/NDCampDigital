@@ -1,5 +1,6 @@
 // TODO list
 /* Line 17: "TODO Figure this out - 100vh height adds scrollbars on both axes"
+*  Line 150: "TODO Determine scale factor - maybe this should be global?"
 *  Line 172: "TODO Fix this reset!"
 *  Line 190: "TODO Change this to location of where the horde WILL be (refer to Trello notes for method)"
 */
@@ -147,7 +148,7 @@ $(document).ready(function(){
   function animate () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas from the previous frame
     ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
-    ctx.drawImage(tower, 0, 100); // Draws the tower
+    ctx.drawImage(tower, 0, 100, canvasWidth * 0.3, canvasHeight - 100); // Draws the tower // TODO Determine scale factor - maybe this should be global?
 
     countdown--;
     if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
