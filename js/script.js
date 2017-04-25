@@ -49,8 +49,9 @@ $(document).ready(function(){
     "yOrigin": 0,
     "xPos": 0,
     "yPos": 0,
+    "yOffset": 300,
 		"radius": 10,
-		"velocity": 20,
+		"velocity": 10,
     "landingPos": canvasHeight / Math.pow(canvasWidth, 2), // Refers to the x-coordinate at which the boulder lands
     "landingPosCalculated": false,
     "animate": false,
@@ -138,7 +139,7 @@ $(document).ready(function(){
 
   // Return the y position for the boulder -------------------------------------
   function getBoulderY (x) {
-  	return Math.pow(x, 2) * boulder.landingPos;
+  	return Math.pow((x - boulder.yOffset), 2) * boulder.landingPos;
   }
 
   // Animate the scene ---------------------------------------------------------
@@ -148,7 +149,7 @@ $(document).ready(function(){
   function animate () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas from the previous frame
     //ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight); // Redraws the background
-    ctx.drawImage(tower, 0, 100, canvasWidth * 0.3, canvasHeight - 100); // Draws the tower // TODO Determine scale factor - maybe this should be global?
+    ctx.drawImage(tower, 0, 100); // Draws the tower // TODO Determine scale factor - maybe this should be global?
 
     countdown--;
     if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
@@ -184,7 +185,7 @@ $(document).ready(function(){
 
       if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
         boulder.landingPosCalculated = true;
-        boulder.landingPos = canvasHeight / Math.pow(sqrActPos, 2); // Refers to the x-coordinate at which the boulder lands;
+        boulder.landingPos = canvasHeight / Math.pow((sqrActPos - boulder.yOffset), 2); // Refers to the x-coordinate at which the boulder lands;
       }
       // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
 
