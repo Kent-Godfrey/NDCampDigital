@@ -222,7 +222,7 @@ $(document).ready(function(){
         }
         explosion.currentFrame++;
       }
-      ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, sqrActPos, horde.hordeY, explosion.frameWidth, explosion.frameHeight);
+      ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth, explosion.frameHeight);
       horde.sqrx = 0;
 
       boulder.animate = false;
