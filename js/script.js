@@ -50,7 +50,7 @@ $(document).ready(function(){
     "xPos": 0,
     "yPos": 0,
 		"radius": 10,
-		"velocity": 10,
+		"velocity": 20,
     "landingPos": canvasHeight / Math.pow(canvasWidth, 2), // Refers to the x-coordinate at which the boulder lands
     "landingPosCalculated": false,
     "animate": false,
