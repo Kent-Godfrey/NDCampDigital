@@ -96,7 +96,7 @@ $(document).ready(function(){
 
   var boulderAnimation;
 
-  $('#fire').click(function () { // When the fire button is clicked the fire function is called
+  $('#mainCanvas').click(function () { // When the fire button is clicked the fire function is called
     boulder.animate = true;
   });
 
