@@ -53,11 +53,11 @@ $(document).ready(function(){
   var boulder = {
     // All boulder properties are given here to prevent having to look elsewhere in the code if any changes are required
     // JSON objects found here: https://www.w3schools.com/js/js_json_objects.asp
-    "xOrigin": 0,
+    "xOrigin": 100,
     "yOrigin": 0,
     "xPos": 0,
     "yPos": 0,
-    "yOffset": 300,
+    "yOffset": scene.height * 0.25,
 		"radius": 10,
 		"velocity": 10,
     "landingPos": scene.height / Math.pow(scene.width, 2), // Refers to the x-coordinate at which the boulder lands
@@ -96,7 +96,7 @@ $(document).ready(function(){
 
   var boulderAnimation;
 
-  $('#fire').click(function () { // When the fire button is clicked the fire function is called
+  $('#mainCanvas').click(function () { // When the fire button is clicked the fire function is called
     boulder.animate = true;
   });
 
@@ -149,13 +149,16 @@ $(document).ready(function(){
 
   // Return the y position for the boulder -------------------------------------
   function getBoulderY (x) {
-  	return Math.pow((x - boulder.yOffset), 2) * boulder.landingPos;
+  	return Math.pow(x, 2) * boulder.landingPos + boulder.yOffset;
   }
 
   // Animate the scene ---------------------------------------------------------
   var countdown = horde.speed;
   var cycle = explosion.refresh;
   var sqrActPos = scene.width - horde.sqrx + 5;
+
+  var countUp = 0;
+
   function animate () {
     ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
 
@@ -193,9 +196,9 @@ $(document).ready(function(){
       if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
         boulder.landingPosCalculated = true;
 
-        boulder.landingPos = scene.height / Math.pow(sqrActPos, 2); // Refers to the x-coordinate at which the boulder lands;
+        boulder.landingPos = scene.height / Math.pow(sqrActPos + boulder.yOffset, 2); // Refers to the x-coordinate at which the boulder lands;
 
-        boulder.landingPos = scene.height / Math.pow((sqrActPos - boulder.yOffset), 2); // Refers to the x-coordinate at which the boulder lands;
+        // boulder.landingPos = scene.height / Math.pow((sqrActPos - boulder.yOffset), 2); // Refers to the x-coordinate at which the boulder lands;
 
       }
       // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
@@ -204,6 +207,8 @@ $(document).ready(function(){
 
       boulder.xPos += boulder.velocity; // This updates the boulders x position
       boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
+
+      countUp ++;
     }
 
     // Horde resets & explosion animation --------------------------------------
@@ -228,6 +233,8 @@ $(document).ready(function(){
       boulder.animate = false;
       boulder.landingPosCalculated = false;
       resetBoulder();
+      console.log(countUp);
+      console.log(sqrActPos);
     }
 
     // Hard reset --------------------------------------------------------------
