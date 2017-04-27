@@ -203,10 +203,10 @@ $(document).ready(function(){
       }
       // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
 
-      drawCircle(boulder.xPos, boulder.yPos);
-
       boulder.xPos += boulder.velocity; // This updates the boulders x position
       boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
+
+      drawCircle(boulder.xPos, boulder.yPos);
 
       countUp ++;
     }
