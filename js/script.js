@@ -231,7 +231,7 @@ $(document).ready(function(){
     }
 
     // Hard reset --------------------------------------------------------------
-    if (horde.sqrx == scene.width - 325) { // Resets the horde if they reach the tower
+    if (horde.sqrx == scene.width - 297 * scene.scaleFactor) { // Resets the horde if they reach the tower
       horde.sqrx = 0;
 
       boulder.animate = false;
