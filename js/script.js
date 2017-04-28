@@ -22,8 +22,8 @@ $(document).ready(function(){
   resizeCanvas();
 
   // Set variables for canvas width and height ---------------------------------
-  //var canvasWidth = c.width();
-  //var canvasHeight = c.height();
+  // var canvasWidth = c.width();
+  // var canvasHeight = c.height();
 
 	// Initialise images ---------------------------------------------------------
 	var skele = new Image();
@@ -68,7 +68,12 @@ $(document).ready(function(){
     "frameWidth": 67,
     "frameHeight": 59,
     "totalFrames": 6,
-    "currentFrame": 0
+    "currentFrame": 0,
+
+    "trigger": {
+      "previous": 0,
+      "current": 0
+    }
   }
 
   var horde = {
@@ -118,21 +123,6 @@ $(document).ready(function(){
     boulder.yPos = boulder.yOrigin;
   }
 
-  // Fire boulder along trajectory ---------------------------------------------
-  // function fireBoulder () {
-  //   // ctx.clearRect(0, 0, canvasWidth, canvasHeight); // This clears the canvas to draw the projectile
-  //   drawCircle(boulder.xPos, boulder.yPos);
-  //
-  //   boulder.xPos += boulder.velocity; // This updates the boulders x position
-  //   boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
-  //
-  //   if (boulder.yPos <= canvasHeight - boulder.radius) {
-  //     requestAnimationFrame(fireBoulder);
-  //   } else {
-  //     stopBoulder();
-  //   }
-  // }
-
   // Draw boulder --------------------------------------------------------------
   function drawCircle () {
     ctx.drawImage(fireBall, boulder.shift, 0, boulder.frameWidth, boulder.frameHeight, boulder.xPos, boulder.yPos, boulder.frameWidth * scene.scaleFactor, boulder.frameHeight * scene.scaleFactor);
@@ -140,7 +130,7 @@ $(document).ready(function(){
     boulder.shift += boulder.frameWidth + 1;
 
     //resets spritesheet. Loops through
-    if (boulder.currentFrame == boulder.totalFrames){
+    if (boulder.currentFrame == boulder.totalFrames) {
        boulder.shift = 0;
        boulder.currentFrame= 0;
     }
@@ -197,8 +187,7 @@ $(document).ready(function(){
 
         boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(sqrActPos + boulder.xOffset, 2); // Refers to the x-coordinate at which the boulder lands;
       }
-      // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
-
+      
       boulder.xPos += boulder.velocity; // This updates the boulders x position
       boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
 
@@ -209,7 +198,6 @@ $(document).ready(function(){
     // Soft reset --------------------------------------------------------------
     if (boulder.yPos + boulder.radius >= horde.hordeY) {
       cycle--;
-      console.log(cycle);
       if (cycle == 0) {
         cycle = explosion.refresh;
 
@@ -243,4 +231,13 @@ $(document).ready(function(){
   }
 
   animate();
+
+  // Twitter trigger -----------------------------------------------------------
+  $.getJSON('http://138.68.178.1/twitter-stream.json', function(result) {
+    // jQuery .getJSON() method found here: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_ajax_getjson
+    // This is being used to pull live data from a JSON file, an updated file will call the fire() function
+    $.each(result, function(i, field) {
+      $(".twitter-feed").append(field + " ");
+    })
+  });
 });
