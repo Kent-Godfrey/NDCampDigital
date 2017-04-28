@@ -55,9 +55,10 @@ $(document).ready(function(){
     // JSON objects found here: https://www.w3schools.com/js/js_json_objects.asp
     "xOrigin": 100,
     "yOrigin": 0,
-    "xPos": 0,
+    "xPos": 100,
     "yPos": 0,
-    "yOffset": scene.height * 0.25,
+    "xOffset": -200,
+    "yOffset": scene.height * 0.15,
 		"radius": 10,
 		"velocity": 10,
     "landingPos": scene.height / Math.pow(scene.width, 2), // Refers to the x-coordinate at which the boulder lands
@@ -149,7 +150,7 @@ $(document).ready(function(){
 
   // Return the y position for the boulder -------------------------------------
   function getBoulderY (x) {
-  	return Math.pow(x, 2) * boulder.landingPos + boulder.yOffset;
+  	return Math.pow(x + boulder.xOffset, 2) * boulder.landingPos + boulder.yOffset;
   }
 
   // Animate the scene ---------------------------------------------------------
@@ -194,7 +195,7 @@ $(document).ready(function(){
       if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
         boulder.landingPosCalculated = true;
 
-        boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(sqrActPos, 2); // Refers to the x-coordinate at which the boulder lands;
+        boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(sqrActPos + boulder.xOffset, 2); // Refers to the x-coordinate at which the boulder lands;
       }
       // TODO Change this to location of where the horde WILL be (refer to Trello notes for method)
 
