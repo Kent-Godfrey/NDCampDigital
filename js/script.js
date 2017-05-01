@@ -28,18 +28,12 @@ $(document).ready(function(){
 	// Initialise images ---------------------------------------------------------
 	var skele = new Image();
 	skele.src = 'images/both.png';
-	var tower = new Image();
-	tower.src = 'images/tower.png';
-	//var backdrop = new Image(); // NOTE Maybe this could be a CSS background instead? So that the background doesn't have to be redrawn each frame?
-	//backdrop.src = 'http://i.imgur.com/PhFQkdl.png';
+	// var tower = new Image();
+	// tower.src = 'images/tower.png';
   var fireBall = new Image();
   fireBall.src = 'images/fireballv2.png';
   var flames = new Image();
   flames.src = 'images/flames.png';
-
-
-	// Draws background ----------------------------------------------------------
-	//ctx.drawImage(backdrop, 0, 0, canvasWidth, canvasHeight);
 
   // Initialise JSON objects ---------------------------------------------------
   var scene = {
@@ -98,25 +92,19 @@ $(document).ready(function(){
     "refresh": 3,
   }
 
+  var tower = {
+    "img": new Image(),
+    "top": scene.height * 0.1,
+    "left": 0,
+    "height": scene.height * 0.9,
+    "width": scene.width * 0.225
+  };
 
-
-  var boulderAnimation;
+  tower.img.src = 'images/tower.png';
 
   $('#mainCanvas').click(function () { // When the fire button is clicked the fire function is called
     boulder.animate = true;
   });
-
-  function fire () {
-    stopBoulder();
-    resetBoulder();
-    boulderAnimation = requestAnimationFrame(fireBoulder);
-    // requestAnimationFrame found here: https://css-tricks.com/using-requestanimationframe/
-  }
-
-  function stopBoulder () {
-    cancelAnimationFrame(boulderAnimation);
-    // cancelAnimationFrame found here: https://css-tricks.com/using-requestanimationframe/
-  }
 
   function resetBoulder () {
     boulder.xPos = boulder.xOrigin;
@@ -150,9 +138,6 @@ $(document).ready(function(){
 
   function animate () {
     ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
-
-    ctx.drawImage(tower, 0, 100, 297 * scene.scaleFactor, 900 * scene.scaleFactor); // Draws the tower
-
 
     countdown--;
     if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
@@ -193,6 +178,8 @@ $(document).ready(function(){
 
       drawCircle(boulder.xPos, boulder.yPos);
     }
+
+    ctx.drawImage(tower.img, tower.left, tower.top, tower.width, tower.height); // Draws the tower
 
     // Horde resets & explosion animation --------------------------------------
     // Soft reset --------------------------------------------------------------
