@@ -187,7 +187,7 @@ $(document).ready(function(){
 
         boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(sqrActPos + boulder.xOffset, 2); // Refers to the x-coordinate at which the boulder lands;
       }
-      
+
       boulder.xPos += boulder.velocity; // This updates the boulders x position
       boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
 
