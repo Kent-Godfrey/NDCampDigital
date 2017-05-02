@@ -136,6 +136,10 @@ $(document).ready(function(){
   var cycle = explosion.refresh;
   var sqrActPos = scene.width - horde.sqrx + 5;
 
+  var triggerCountdown = 30;
+  var length;
+  var previousLength;
+
   function animate () {
     ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
 
@@ -213,18 +217,37 @@ $(document).ready(function(){
       resetBoulder();
     }
 
+    triggerCountdown--;
+
+    if (triggerCountdown == 0) {
+      // Twitter trigger -----------------------------------------------------------
+      $.getJSON('http://138.68.178.1/twitter-stream.json', function(result) {
+        // jQuery .getJSON() method found here: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_ajax_getjson
+        // This is being used to pull live data from a JSON file, an updated file will call the fire() function
+        var items = [];
+
+        $.each(result, function(i, field) {
+          items.push(i + field);
+        });
+
+        length = items.length;
+        triggerCountdown = 30;
+
+        // console.log(length);
+        // console.log(previousLength);
+      });
+    }
+
+    if (length != previousLength) {
+      boulder.animate = true;
+    }
+
+    previousLength = length;
 
     requestAnimationFrame(animate);
   }
 
   animate();
 
-  // Twitter trigger -----------------------------------------------------------
-  $.getJSON('http://138.68.178.1/twitter-stream.json', function(result) {
-    // jQuery .getJSON() method found here: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_ajax_getjson
-    // This is being used to pull live data from a JSON file, an updated file will call the fire() function
-    $.each(result, function(i, field) {
-      $(".twitter-feed").append(field + " ");
-    })
-  });
+
 });
