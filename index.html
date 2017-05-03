@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Northern Dabblers">
+    <meta name="Northern Dabblers" content="Tower Defence">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/skeleton.css">
@@ -15,13 +15,17 @@
 
 <body>
     <div class="container">
+        <!-- Game over div to be used when the horde arrive at the tower. -->
         <div class="game-over">
             <h1>GAME OVER</h1>
             <p>Tweet #CampDigital to continue...</p>
         </div>
+        <!-- Main content row. -->
         <div class="row">
+            <!-- Column for Twitter feed. -->
             <div class="three columns twitter-feed">
                 <a class="twitter-timeline" href="https://twitter.com/hashtag/CampDigital" data-widget-id="844922781124976641">#CampDigital Tweets</a>
+                <!-- Twitter feed script. -->
                 <script>
                 ! function(d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0],
@@ -35,6 +39,7 @@
                 }(document, "script", "twitter-wjs");
                 </script>
             </div>
+            <!-- Column for main content. -->
             <div class="nine columns canvas-container">
                 <canvas id="mainCanvas" width="200" height="200">Please update your browser to view this content.</canvas>
             </div>
