@@ -8,6 +8,8 @@ OAUTH_TOKEN_SECRET = 'RrDTkkcV3uIFFu7PEc5pndeXKAqoo9o7QDT77W7BgUfKW'
 
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
+        if 'screen_name' in data:
+            print(data['screen_name'].encode('utf-8'))
         if 'text' in data:
             print(data['text'].encode('utf-8'))
 
@@ -19,6 +21,7 @@ class MyStreamer(TwythonStreamer):
 
 stream = MyStreamer(APP_KEY, APP_SECRET,
                     OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+
 stream.statuses.filter(
-    track='test1431',
+    track='#WednesdayWisdom, #LineofDuty',
     result_type='recent')
