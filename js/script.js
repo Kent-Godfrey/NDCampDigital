@@ -66,7 +66,7 @@ $(document).ready(function() {
         "totalFrames": 6,
         "currentFrame": 0,
 
-        "trigger": {
+        "trigger": { // TODO Change twitter trigger to these
             "previous": 0,
             "current": 0
         }
@@ -139,14 +139,16 @@ $(document).ready(function() {
     var sqrActPos = scene.width - horde.sqrx + 5;
 
     var triggerCountdown = 30;
-    var length;
-    var previousLength;
+    var filesize = 1;
+    var previousFilesize = 1;
+
+    var file = 0;
 
     function animate() {
         ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
 
         countdown--;
-        if (countdown == 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
+        if (countdown === 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
             countdown = horde.speed;
             //calc for actual position of horde
             sqrActPos = scene.width - horde.sqrx + 5;
@@ -173,7 +175,7 @@ $(document).ready(function() {
         // Animate boulder ---------------------------------------------------------
         if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
 
-            if (boulder.landingPosCalculated == false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
+            if (boulder.landingPosCalculated === false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
                 boulder.landingPosCalculated = true;
 
                 boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(sqrActPos + boulder.xOffset, 2); // Refers to the x-coordinate at which the boulder lands;
@@ -191,7 +193,7 @@ $(document).ready(function() {
         // Soft reset --------------------------------------------------------------
         if (boulder.yPos + boulder.radius >= horde.hordeY) {
             cycle--;
-            if (cycle == 0) {
+            if (cycle === 0) {
                 cycle = explosion.refresh;
 
                 explosion.shift += explosion.frameWidth + 1;
@@ -221,30 +223,33 @@ $(document).ready(function() {
 
         triggerCountdown--;
 
-        if (triggerCountdown == 0) {
-            // Twitter trigger -----------------------------------------------------------
-            $.getJSON('http://138.68.178.1/twitter-stream.json', function(result) {
-                // jQuery .getJSON() method found here: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_ajax_getjson
-                // This is being used to pull live data from a JSON file, an updated file will call the fire() function
-                var items = [];
+        if (triggerCountdown === 0) {
+        // Twitter trigger -----------------------------------------------------------
+           file = $.ajax({
+              url: "twitter-stream.json",
+              type: "HEAD",
+              success: function () {
+                filesize = file.getResponseHeader('Content-Length');
+                console.log(filesize + ", " + previousFilesize);
 
-                $.each(result, function(i, field) {
-                    items.push(i + field);
-                });
+                if (filesize !== previousFilesize) {
+                  boulder.animate = true;
+                }
 
-                length = items.length;
-                triggerCountdown = 30;
-
-                // console.log(length);
-                // console.log(previousLength);
+                previousFilesize = filesize;
+              }
             });
-        }
 
-        if (length != previousLength) {
-            boulder.animate = true;
+            // var xhr = $.ajax({
+            //   type: "HEAD",
+            //   url: "twitter-stream.json",
+            //   success: function(){
+            //     alert(xhr.getResponseHeader('Content-Length') + ' bytes');
+            //     console.log(xhr.getResponseHeader('Content-Length'));
+            //   }
+            // });
+            triggerCountdown = 30;
         }
-
-        previousLength = length;
 
         requestAnimationFrame(animate);
     }
