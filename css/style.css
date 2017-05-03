@@ -24,17 +24,20 @@ body {
     /* This is used to undo the width rule given by the Skeleton framework */
 }
 
+/*Div container for the Twitter*/
 .twitter-feed {
     height: 100vh;
     background: blue;
 }
 
+/*Game screen background*/
 .canvas-container {
     height: 100vh;
     background-image: url("http://i.imgur.com/PhFQkdl.png");
     background-size: 100% 100%;
 }
 
+/*Game Over div to be used when the Horde gets to tower*/
 .game-over {
     font-family: 'Press Start 2P', cursive;
     color: white;
