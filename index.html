@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<meta name="author" content="Northern Dabblers">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="css/normalize.css">
-	<link rel="stylesheet" type="text/css" href="css/skeleton.css">
-	<link rel= "stylesheet" href="css/style.css">
-	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-	<title>Protect the castle!</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="author" content="Northern Dabblers">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <title>Protect the castle!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
+
 <body>
-	<div class="container">
-		<div class="game-over">
-			<h1>GAME OVER</h1>
-			<p>Tweet #CampDigital to continue...</p>
-		</div>
-		<div class="row">
-
-			<div class="three columns twitter-feed">
-				<a class="twitter-timeline"  href="https://twitter.com/hashtag/CampDigital" data-widget-id="844922781124976641">#CampDigital Tweets</a>
-            	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-			</div>
-			<div class="nine columns canvas-container">
-				<canvas id="mainCanvas" width="200" height="200">Please update your browser to view this content.</canvas>
-			</div>
-
-		</div>
-	</div>
-<script src="js/script.js"></script>
+    <div class="container">
+        <div class="game-over">
+            <h1>GAME OVER</h1>
+            <p>Tweet #CampDigital to continue...</p>
+        </div>
+        <div class="row">
+            <div class="three columns twitter-feed">
+                <a class="twitter-timeline" href="https://twitter.com/hashtag/CampDigital" data-widget-id="844922781124976641">#CampDigital Tweets</a>
+                <script>
+                ! function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0],
+                        p = /^http:/.test(d.location) ? 'http' : 'https';
+                    if (!d.getElementById(id)) {
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = p + "://platform.twitter.com/widgets.js";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }
+                }(document, "script", "twitter-wjs");
+                </script>
+            </div>
+            <div class="nine columns canvas-container">
+                <canvas id="mainCanvas" width="200" height="200">Please update your browser to view this content.</canvas>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
 </body>
+
 </html>

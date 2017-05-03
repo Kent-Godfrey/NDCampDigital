@@ -1,45 +1,50 @@
 body {
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
 }
 
 .container {
-  width: 100%; /* This is used to undo the width rule given by the Skeleton framework */
-  max-width: none; /* This is used to undo the max-width rule given by the Skeleton framework */
-  margin: 0; /* This is used to undo the margin rule given by the Skeleton framework */
-
-  height: 100vh;
+    width: 100%;
+    /* This is used to undo the width rule given by the Skeleton framework */
+    max-width: none;
+    /* This is used to undo the max-width rule given by the Skeleton framework */
+    margin: 0;
+    /* This is used to undo the margin rule given by the Skeleton framework */
+    height: 100vh;
 }
 
 .columns {
-  margin: 0; /* This is used to undo the margin-left rule given by the Skeleton framework */
+    margin: 0;
+    /* This is used to undo the margin-left rule given by the Skeleton framework */
 }
 
 .nine.columns {
-  width: 78%; /* This is used to undo the width rule given by the Skeleton framework */
+    width: 78%;
+    /* This is used to undo the width rule given by the Skeleton framework */
 }
 
 .twitter-feed {
-  height: 100vh;
-  background: blue;
+    height: 100vh;
+    background: blue;
 }
 
 .canvas-container {
-  height: 100vh;
-  background-image: url("http://i.imgur.com/PhFQkdl.png");
-  background-size: 100% 100%;
-  
+    height: 100vh;
+    background-image: url("http://i.imgur.com/PhFQkdl.png");
+    background-size: 100% 100%;
 }
 
 .game-over {
-  font-family: 'Press Start 2P', cursive;
-  color: white;
-  background-color: black;
-  width: 100%;
-  height: 100%;
-  display: none;
-  text-align:center;
-  padding-top: 250px;
-  position: absolute; top: 0; left: 0;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    display: none;
+    text-align: center;
+    padding-top: 250px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
