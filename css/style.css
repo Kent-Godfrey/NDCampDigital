@@ -1,30 +1,29 @@
+/* Remove the scroll bar */
 body {
     overflow: hidden;
     width: 100vw;
     height: 100vh;
 }
 
+/* This is used to undo the width rule given by the Skeleton framework */
 .container {
     width: 100%;
-    /* This is used to undo the width rule given by the Skeleton framework */
     max-width: none;
-    /* This is used to undo the max-width rule given by the Skeleton framework */
     margin: 0;
-    /* This is used to undo the margin rule given by the Skeleton framework */
     height: 100vh;
 }
 
+/* This is used to undo the margin-left rule given by the Skeleton framework */
 .columns {
     margin: 0;
-    /* This is used to undo the margin-left rule given by the Skeleton framework */
 }
 
+/* This is used to undo the width rule given by the Skeleton framework */
 .nine.columns {
     width: 78%;
-    /* This is used to undo the width rule given by the Skeleton framework */
 }
 
-/*Div container for the Twitter*/
+/*Div container for the Twitter feed*/
 .twitter-feed {
     height: 100vh;
     background: blue;
