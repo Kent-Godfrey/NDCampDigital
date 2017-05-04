@@ -1,34 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
 
 <head>
+    <title>Protect the castle!</title>
     <meta charset="utf-8">
     <meta name="Northern Dabblers" content="Tower Defence">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Protect the castle!</title>
-    <!-- Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-    <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <!-- Game over div to be used when the horde arrive at the tower. -->
+        <!-- Game over used when horde reaches the castle -->
         <div class="game-over">
             <h1>GAME OVER</h1>
             <p>Tweet #CampDigital to continue...</p>
         </div>
-        <!-- Main content row. -->
         <div class="row">
-            <!-- Column for Twitter feed. -->
+            <!-- Three column wide Twitter feed -->
             <div class="three columns twitter-feed">
-                <a class="twitter-timeline" href="https://twitter.com/hashtag/CampDigital" data-widget-id="844922781124976641">#CampDigital Tweets</a>
                 <!-- Twitter feed script. -->
+                <a class="twitter-timeline" href="https://twitter.com/hashtag/CampDigital" data-widget-id="844922781124976641">#CampDigital Tweets</a>
                 <script>
                 ! function(d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0],
@@ -40,9 +35,10 @@
                         fjs.parentNode.insertBefore(js, fjs);
                     }
                 }(document, "script", "twitter-wjs");
+
                 </script>
             </div>
-            <!-- Column for main content. -->
+            <!-- Nine column wide Canvas -->
             <div class="nine columns canvas-container">
                 <canvas id="mainCanvas" width="200" height="200">Please update your browser to view this content.</canvas>
             </div>
@@ -51,3 +47,4 @@
 </body>
 
 </html>
+

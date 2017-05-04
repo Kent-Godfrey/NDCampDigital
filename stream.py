@@ -10,36 +10,22 @@ OAUTH_TOKEN_SECRET = 'RrDTkkcV3uIFFu7PEc5pndeXKAqoo9o7QDT77W7BgUfKW'
 
 class MyStreamer(TwythonStreamer):
 
-    """
-    Checks connection and prints the returned data or error code.
-
-    Extends:
-        TwythonStreamer
-
-    Variables:
-        APP_KEY {str} -- API Key
-        APP_SECRET {str} -- API Key Secret
-        OAUTH_TOKEN {str} -- OAuth Token
-        OAUTH_TOKEN_SECRET {str} -- OAuth Token Secret
-        track {str} -- Sets the keywords to track, seperated by commas
-        result_type {str} -- Sets the type of results, popular or recent
-    """
-
+    # On success print text from the data, text is the body of the tweet which will contain the keyword
     def on_success(self, data):
-        if 'screen_name' in data:
-            print(data['screen_name'].encode('utf-8'))
         if 'text' in data:
             print(data['text'].encode('utf-8'))
 
+    # On error print the error code and disconnect the streamer
     def on_error(self, status_code, data):
         print(status_code)
 
         self.disconnect()
 
-
+# Pipe API information into the streamer
 stream = MyStreamer(APP_KEY, APP_SECRET,
                     OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
+# Track keywords seperated by commas and look for the most recent tweets (other arg is popular)
 stream.statuses.filter(
-    track='#WednesdayWisdom, #LineofDuty',
+    track='@WeAreSigma, #CampDigital, "Camp Digital", #NorthernDabblers',
     result_type='recent')
