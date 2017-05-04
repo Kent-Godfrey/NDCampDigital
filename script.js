@@ -183,7 +183,7 @@ $(document).ready(function() {
                 }
                 explosion.currentFrame++;
             }
-            ctx.drawImage(explosion.image, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth, explosion.frameHeight);
+            ctx.drawImage(explosion.image, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth * scene.scaleFactor, explosion.frameHeight * scene.scaleFactor);
             horde.xPos = horde.xOrigin;
 
             boulder.animate = false;
