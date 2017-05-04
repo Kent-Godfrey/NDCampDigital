@@ -36,6 +36,7 @@ $(document).ready(function() {
         "currentFrame": 0,
         "frameHeight": 59,
         "frameWidth": 67,
+        "image": new Image(),
         "landingPos": scene.height / Math.pow(scene.width, 2), // Refers to the x-coordinate at which the boulder lands
         "landingPosCalculated": false,
         "radius": 10,
@@ -60,32 +61,42 @@ $(document).ready(function() {
         "frameHeight": 94,
         "frameWidth": 32.1,
         "hordeSize": 50,
-        "hordeX": 0,
-        "hordeY": scene.height * 0.85,
+        "image": new Image(),
         "shift": 0,
-        "speed": 1, // This prevents the horde from animating for x number of frames. In this case: 5
+        "speed": 2, // Speed^-1 gives the actual speed. e.g speed: 5 = 1/5 updates per execution of the code
         "startPos": scene.width,
-        "totalFrames": 9
+        "moveTimer": 0,
+        "totalFrames": 9,
+        "xOrigin": 0,
+        "xPos": 0,
+        "yPos": scene.height * 0.85,
     };
 
     var explosion = {
         "currentFrame": 0,
         "frameHeight": 96,
         "frameWidth": 106,
+        "image": new Image(),
         "refresh": 3,
         "shift": 0,
+        "timer": 0,
         "totalFrames": 9
     };
 
     var tower = {
         "height": scene.height * 0.9,
-        "img": new Image(),
+        "image": new Image(),
         "left": 0,
         "top": scene.height * 0.1,
         "width": scene.width * 0.225
     };
 
-    tower.img.src = 'images/tower.png';
+    // Initialise images -------------------------------------------------------
+    boulder.image.src = 'images/fireballv2.png';
+    horde.image.src = 'images/both.png';
+    explosion.image.src = 'images/flames.png';
+    tower.image.src = 'images/tower.png';
+
 
     $('#mainCanvas').click(function() {
         boulder.animate = true;
@@ -98,7 +109,7 @@ $(document).ready(function() {
 
     // Draw boulder ------------------------------------------------------------
     function drawCircle() {
-        ctx.drawImage(fireball, boulder.shift, 0, boulder.frameWidth, boulder.frameHeight, boulder.xPos, boulder.yPos, boulder.frameWidth * scene.scaleFactor, boulder.frameHeight * scene.scaleFactor);
+        ctx.drawImage(boulder.image, boulder.shift, 0, boulder.frameWidth, boulder.frameHeight, boulder.xPos, boulder.yPos, boulder.frameWidth * scene.scaleFactor, boulder.frameHeight * scene.scaleFactor);
         // Shifts through sprite sheet (animates)
         boulder.shift += boulder.frameWidth + 1;
 
@@ -117,9 +128,9 @@ $(document).ready(function() {
     }
 
     // Animate the scene -------------------------------------------------------
-    var countdown = horde.speed;
-    var cycle = explosion.refresh;
-    var sqrActPos = scene.width - horde.hordeX + 5;
+    horde.moveTimer = horde.speed;
+    explosion.timer = explosion.refresh;
+    var sqrActPos = scene.width - horde.xPos + 5;
 
     var fileSize = 1;
     var previousFileSize = 1;
@@ -130,14 +141,14 @@ $(document).ready(function() {
     function animate() {
         ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
 
-        countdown--;
-        if (countdown === 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
-            countdown = horde.speed;
+        horde.moveTimer --;
+        if (horde.moveTimer === 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
+            horde.moveTimer = horde.speed;
             // Calc for actual position of horde
-            sqrActPos = scene.width - horde.hordeX + 5;
+            sqrActPos = scene.width - horde.xPos + 5;
 
             // Update Squares X pos
-            horde.hordeX++;
+            horde.xPos++;
             // Shifts through sprite sheet (animates)
             horde.shift += horde.frameWidth + 1;
 
@@ -150,9 +161,9 @@ $(document).ready(function() {
             horde.currentFrame++;
         }
 
-        ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.hordeY, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.hordeY, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(skele, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.hordeY, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
 
         // Animate boulder -----------------------------------------------------
         if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
@@ -164,13 +175,13 @@ $(document).ready(function() {
             boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
             drawCircle(boulder.xPos, boulder.yPos);
         }
-        ctx.drawImage(tower.img, tower.left, tower.top, tower.width, tower.height);
+        ctx.drawImage(tower.image, tower.left, tower.top, tower.width, tower.height);
 
         // Soft reset ----------------------------------------------------------
-        if (boulder.yPos + boulder.radius >= horde.hordeY) {
-            cycle--;
-            if (cycle === 0) {
-                cycle = explosion.refresh;
+        if (boulder.yPos + boulder.radius >= horde.yPos) {
+            explosion.timer --;
+            if (explosion.timer === 0) {
+                explosion.timer = explosion.refresh;
                 explosion.shift += explosion.frameWidth + 1;
                 // Resets spritesheet. Loops through
                 if (explosion.currentFrame == explosion.totalFrames) {
@@ -179,8 +190,8 @@ $(document).ready(function() {
                 }
                 explosion.currentFrame++;
             }
-            ctx.drawImage(flames, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth, explosion.frameHeight);
-            horde.hordeX = 0;
+            ctx.drawImage(explosion.image, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth, explosion.frameHeight);
+            horde.xPos = 0;
 
             boulder.animate = false;
             boulder.landingPosCalculated = false;
@@ -188,8 +199,8 @@ $(document).ready(function() {
         }
 
         // Hard reset ----------------------------------------------------------
-        if (horde.hordeX >= scene.width - 297 * scene.scaleFactor) { // Resets the horde if they reach the tower
-            horde.hordeX = 0;
+        if (horde.xPos >= scene.width - tower.width) { // Resets the horde if they reach the tower
+            horde.xPos = 0;
 
             boulder.animate = false;
             boulder.landingPosCalculated = false;
@@ -217,4 +228,3 @@ $(document).ready(function() {
     }
     animate();
 });
-
