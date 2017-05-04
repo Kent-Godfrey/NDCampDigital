@@ -1,11 +1,14 @@
 $(document).ready(function() {
     var c = $("#mainCanvas");
     var ctx = c.get(0).getContext("2d");
-
+    
+    //Reference: Book name-  Foundation HTML Canvas for games and entertainment by Rob Hawkes
+    //p84-85
     c.attr("height", $(window).get(0).innerHeight);
     c.attr("width", $(window).get(0).innerWidth); // Set canvas to the width of browser window. get(0). Only works with CSS reset.
 
-    $(window).resize(resizeCanvas); // Dynamic dimensions
+    // Dynamic dimension feature 
+    $(window).resize(resizeCanvas); 
     function resizeCanvas() {
         c.attr("height", $('.canvas-container').height());
         c.attr("width", $('.canvas-container').width());
@@ -13,12 +16,12 @@ $(document).ready(function() {
     resizeCanvas();
 
     // Images ------------------------------------------------------------------
-    var fireball = new Image();
+    var fireball = new Image(); 
     var flames = new Image();
     var skele = new Image();
-    fireball.src = 'images/fireballv2.png';
-    flames.src = 'images/flames.png';
-    skele.src = 'images/both.png';
+    fireball.src = 'images/fireballv2.png'; //https://opengameart.org
+    flames.src = 'images/flames.png'; // https://opengameart.org
+    skele.src = 'images/both.png'; // http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
 
     // JSON Objects ------------------------------------------------------------
     var scene = {
@@ -57,9 +60,11 @@ $(document).ready(function() {
     };
 
     var horde = {
+        // horde properties assigned in a JSON object for ease of access.
+        //https://www.w3schools.com/js/js_json_objects.asp
         "currentFrame": 0,
         "frameHeight": 94,
-        "frameWidth": 32.1,
+        "frameWidth": 32.3,
         "hordeSize": 50,
         "image": new Image(),
         "shift": 0,
@@ -73,6 +78,8 @@ $(document).ready(function() {
     };
 
     var explosion = {
+        // explosion properties assigned in a JSON object for ease of access.
+        // https://www.w3schools.com/js/js_json_objects.asp
         "currentFrame": 0,
         "frameHeight": 96,
         "frameWidth": 106,
@@ -92,10 +99,10 @@ $(document).ready(function() {
     };
 
     // Initialise images -------------------------------------------------------
-    boulder.image.src = 'images/fireballv2.png';
+    boulder.image.src = 'images/fireballv2.png'; //https://opengameart.org
     horde.image.src = 'images/both.png';
-    explosion.image.src = 'images/flames.png';
-    tower.image.src = 'images/tower.png';
+    explosion.image.src = 'images/flames.png'; //https://opengameart.org
+    tower.image.src = 'images/tower.png'; // http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
 
 
     $('#mainCanvas').click(function() {
@@ -162,8 +169,8 @@ $(document).ready(function() {
         }
 
         ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 40, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + 80, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + scene.width *0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos - scene.width *0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
 
         // Animate boulder -----------------------------------------------------
         if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
