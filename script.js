@@ -1,27 +1,19 @@
 $(document).ready(function() {
     var c = $("#mainCanvas");
     var ctx = c.get(0).getContext("2d");
-    
+
     //Reference: Book name-  Foundation HTML Canvas for games and entertainment by Rob Hawkes
     //p84-85
     c.attr("height", $(window).get(0).innerHeight);
     c.attr("width", $(window).get(0).innerWidth); // Set canvas to the width of browser window. get(0). Only works with CSS reset.
 
-    // Dynamic dimension feature 
-    $(window).resize(resizeCanvas); 
+    // Dynamic dimension feature
+    $(window).resize(resizeCanvas);
     function resizeCanvas() {
         c.attr("height", $('.canvas-container').height());
         c.attr("width", $('.canvas-container').width());
     }
     resizeCanvas();
-
-    // Images ------------------------------------------------------------------
-    var fireball = new Image(); 
-    var flames = new Image();
-    var skele = new Image();
-    fireball.src = 'images/fireballv2.png'; //https://opengameart.org
-    flames.src = 'images/flames.png'; // https://opengameart.org
-    skele.src = 'images/both.png'; // http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
 
     // JSON Objects ------------------------------------------------------------
     var scene = {
@@ -61,7 +53,7 @@ $(document).ready(function() {
 
     var horde = {
         // horde properties assigned in a JSON object for ease of access.
-        //https://www.w3schools.com/js/js_json_objects.asp
+        // https://www.w3schools.com/js/js_json_objects.asp
         "currentFrame": 0,
         "frameHeight": 94,
         "frameWidth": 32.3,
@@ -72,7 +64,7 @@ $(document).ready(function() {
         "startPos": scene.width,
         "moveTimer": 0,
         "totalFrames": 9,
-        "xOrigin": 0,
+        "xOrigin": scene.width + 5,
         "xPos": 0,
         "yPos": scene.height * 0.85,
     };
@@ -98,7 +90,7 @@ $(document).ready(function() {
         "width": scene.width * 0.225
     };
 
-    // Initialise images -------------------------------------------------------
+    // Images ------------------------------------------------------------------
     boulder.image.src = 'images/fireballv2.png'; //https://opengameart.org
     horde.image.src = 'images/both.png';
     explosion.image.src = 'images/flames.png'; //https://opengameart.org
@@ -129,15 +121,10 @@ $(document).ready(function() {
         boulder.currentFrame++;
     }
 
-    // Return the y position for the boulder -----------------------------------
-    function getBoulderY(x) {
-        return Math.pow(x + boulder.xOffset, 2) * boulder.landingPos + boulder.yOffset;
-    }
-
     // Animate the scene -------------------------------------------------------
     horde.moveTimer = horde.speed;
     explosion.timer = explosion.refresh;
-    var sqrActPos = scene.width - horde.xPos + 5;
+    // var sqrActPos = scene.width - horde.xPos + 5;
 
     var fileSize = 1;
     var previousFileSize = 1;
@@ -151,13 +138,9 @@ $(document).ready(function() {
         horde.moveTimer --;
         if (horde.moveTimer === 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
             horde.moveTimer = horde.speed;
-            // Calc for actual position of horde
-            sqrActPos = scene.width - horde.xPos + 5;
 
-            // Update Squares X pos
-            horde.xPos++;
-            // Shifts through sprite sheet (animates)
-            horde.shift += horde.frameWidth + 1;
+            horde.xPos--;
+            horde.shift += horde.frameWidth + 1; // Shifts through sprite sheet (animates)
 
             // Resets spritesheet. Loops through
             if (horde.currentFrame == horde.totalFrames) {
@@ -168,20 +151,23 @@ $(document).ready(function() {
             horde.currentFrame++;
         }
 
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos + scene.width *0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, sqrActPos - scene.width *0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        // Draw Horde ----------------------------------------------------------
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.1, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
 
         // Animate boulder -----------------------------------------------------
         if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
             if (boulder.landingPosCalculated === false) { // Sets the x position for the boulder to land to the x pos of the horde IF it hasn't been calculated
                 boulder.landingPosCalculated = true;
-                boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(sqrActPos + boulder.xOffset, 2); // Refers to the x-coordinate at which the boulder lands
+                boulder.landingPos = (scene.height - boulder.yOffset) / Math.pow(horde.xPos + boulder.xOffset, 2); // Refers to the x-coordinate at which the boulder lands
             }
             boulder.xPos += boulder.velocity; // This updates the boulders x position
-            boulder.yPos = getBoulderY(boulder.xPos); // This updates the boulders y position relative to the x position (y=x^2)
+            boulder.yPos = Math.pow(boulder.xPos + boulder.xOffset, 2) * boulder.landingPos + boulder.yOffset; // This updates the boulders y position relative to the x position (y=x^2)
             drawCircle(boulder.xPos, boulder.yPos);
         }
+
+        // Draw Tower ----------------------------------------------------------
         ctx.drawImage(tower.image, tower.left, tower.top, tower.width, tower.height);
 
         // Soft reset ----------------------------------------------------------
@@ -198,7 +184,7 @@ $(document).ready(function() {
                 explosion.currentFrame++;
             }
             ctx.drawImage(explosion.image, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth, explosion.frameHeight);
-            horde.xPos = 0;
+            horde.xPos = horde.xOrigin;
 
             boulder.animate = false;
             boulder.landingPosCalculated = false;
@@ -206,8 +192,8 @@ $(document).ready(function() {
         }
 
         // Hard reset ----------------------------------------------------------
-        if (horde.xPos >= scene.width - tower.width) { // Resets the horde if they reach the tower
-            horde.xPos = 0;
+        if (horde.xPos <= tower.width) { // Resets the horde if they reach the tower
+            horde.xPos = horde.xOrigin;
 
             boulder.animate = false;
             boulder.landingPosCalculated = false;
