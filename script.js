@@ -2,29 +2,29 @@ $(document).ready(function() {
     var c = $("#mainCanvas");
     var ctx = c.get(0).getContext("2d");
 
-    c.attr("width", $(window).get(0).innerWidth); // Set canvas to the width of browser window. get(0). Only works with CSS reset.
     c.attr("height", $(window).get(0).innerHeight);
+    c.attr("width", $(window).get(0).innerWidth); // Set canvas to the width of browser window. get(0). Only works with CSS reset.
 
     $(window).resize(resizeCanvas); // Dynamic dimensions
     function resizeCanvas() {
-        c.attr("width", $('.canvas-container').width());
         c.attr("height", $('.canvas-container').height());
+        c.attr("width", $('.canvas-container').width());
     }
     resizeCanvas();
 
     // Images ------------------------------------------------------------------
-    var skele = new Image();
-    skele.src = 'images/both.png';
     var fireball = new Image();
-    fireball.src = 'images/fireballv2.png';
     var flames = new Image();
+    var skele = new Image();
+    fireball.src = 'images/fireballv2.png';
     flames.src = 'images/flames.png';
+    skele.src = 'images/both.png';
 
     // JSON Objects ------------------------------------------------------------
     var scene = {
-        "width": c.width(),
         "height": c.height(),
-        "originNum": 826
+        "originNum": 826,
+        "width": c.width()
     };
 
     scene.scaleFactor = scene.height / scene.originNum; // This is declared outside of the original scene initialisation because it uses keys that aren't acessible before this time
@@ -32,56 +32,56 @@ $(document).ready(function() {
     var boulder = {
         // All boulder properties are given here to prevent having to look elsewhere in the code if any changes are required
         // JSON objects found here: https://www.w3schools.com/js/js_json_objects.asp
-        "xOrigin": 100,
-        "yOrigin": 0,
-        "xPos": 100,
-        "yPos": 0,
-        "xOffset": -200,
-        "yOffset": scene.height * 0.15,
-        "radius": 10,
-        "velocity": 10,
+        "animate": false,
+        "currentFrame": 0,
+        "frameHeight": 59,
+        "frameWidth": 67,
         "landingPos": scene.height / Math.pow(scene.width, 2), // Refers to the x-coordinate at which the boulder lands
         "landingPosCalculated": false,
-        "animate": false,
+        "radius": 10,
         "shift": 0,
-        "frameWidth": 67,
-        "frameHeight": 59,
         "totalFrames": 6,
-        "currentFrame": 0,
+        "velocity": 10,
+        "xOffset": -200,
+        "xOrigin": 100,
+        "xPos": 100,
+        "yOffset": scene.height * 0.15,
+        "yOrigin": 0,
+        "yPos": 0,
 
         "trigger": {
-            "previous": 0,
-            "current": 0
+            "current": 0,
+            "previous": 0
         }
     };
 
     var horde = {
+        "currentFrame": 0,
+        "frameHeight": 94,
+        "frameWidth": 32.1,
+        "hordeSize": 50,
         "hordeX": 0,
         "hordeY": scene.height * 0.85,
-        "hordeSize": 50,
-        "startPos": scene.width,
         "shift": 0,
-        "frameWidth": 32.1,
-        "frameHeight": 94,
-        "totalFrames": 9,
-        "currentFrame": 0,
-        "speed": 1 // This prevents the horde from animating for x number of frames. In this case: 5
+        "speed": 1, // This prevents the horde from animating for x number of frames. In this case: 5
+        "startPos": scene.width,
+        "totalFrames": 9
     };
 
     var explosion = {
-        "shift": 0,
-        "frameWidth": 106,
-        "frameHeight": 96,
-        "totalFrames": 9,
         "currentFrame": 0,
+        "frameHeight": 96,
+        "frameWidth": 106,
         "refresh": 3,
+        "shift": 0,
+        "totalFrames": 9
     };
 
     var tower = {
-        "img": new Image(),
-        "top": scene.height * 0.1,
-        "left": 0,
         "height": scene.height * 0.9,
+        "img": new Image(),
+        "left": 0,
+        "top": scene.height * 0.1,
         "width": scene.width * 0.225
     };
 
@@ -104,8 +104,8 @@ $(document).ready(function() {
 
         // Resets spritesheet. Loops through
         if (boulder.currentFrame == boulder.totalFrames) {
-            boulder.shift = 0;
             boulder.currentFrame = 0;
+            boulder.shift = 0;
         }
         // Loops through each frame. frame properties stated in boulder Object
         boulder.currentFrame++;
@@ -121,9 +121,9 @@ $(document).ready(function() {
     var cycle = explosion.refresh;
     var sqrActPos = scene.width - horde.hordeX + 5;
 
-    var triggerCountdown = 30;
     var fileSize = 1;
     var previousFileSize = 1;
+    var triggerCountdown = 30;
 
     var file = 0;
 
@@ -143,8 +143,8 @@ $(document).ready(function() {
 
             // Resets spritesheet. Loops through
             if (horde.currentFrame == horde.totalFrames) {
-                horde.shift = 0;
                 horde.currentFrame = 0;
+                horde.shift = 0;
             }
             // Loops through each frame. frame properties stated in horde Object
             horde.currentFrame++;
@@ -174,8 +174,8 @@ $(document).ready(function() {
                 explosion.shift += explosion.frameWidth + 1;
                 // Resets spritesheet. Loops through
                 if (explosion.currentFrame == explosion.totalFrames) {
-                    explosion.shift = 0;
                     explosion.currentFrame = 0;
+                    explosion.shift = 0;
                 }
                 explosion.currentFrame++;
             }
