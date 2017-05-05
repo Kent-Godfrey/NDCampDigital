@@ -72,7 +72,7 @@ $(document).ready(function() {
         "hordeSize": 50,
         "image": new Image(),
         "shift": 0,
-        "speed": 1, // Speed^-1 gives the actual speed. e.g speed: 5 = 1/5 updates per execution of the code
+        "speed": 2, // Speed^-1 gives the actual speed. e.g speed: 5 = 1/5 updates per execution of the code
         "startPos": scene.width,
         "moveTimer": 0,
         "totalFrames": 9,
@@ -198,11 +198,7 @@ $(document).ready(function() {
             if (explosion.timer === 0) {
               explosion.timer = explosion.refresh;
               explosion.shift += explosion.frameWidth + 1;
-              // Resets spritesheet. Loops through
-              if (explosion.currentFrame == explosion.totalFrames) {
-                  explosion.currentFrame = 0;
-                  explosion.shift = 0;
-              }
+
               explosion.currentFrame++;
             }
             ctx.drawImage(explosion.image, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth * scene.scaleFactor, explosion.frameHeight * scene.scaleFactor);
@@ -215,6 +211,12 @@ $(document).ready(function() {
             resetBoulder();
             scene.reset.softCountdown.current = scene.reset.softCountdown.original;
             scene.reset.soft = false;
+
+            // Resets spritesheet. Loops through
+            if (explosion.currentFrame == explosion.totalFrames) {
+                explosion.currentFrame = 0;
+                explosion.shift = 0;
+            }
           }
 
         // Hard reset ----------------------------------------------------------
