@@ -19,7 +19,19 @@ $(document).ready(function() {
     var scene = {
         "height": c.height(),
         "originNum": 826,
-        "width": c.width()
+        "width": c.width(),
+        "reset": {
+          "hard": false,
+          "hardCountdown": {
+            "current": 420, // Divide by 60 to get number of seconds
+            "original": 420
+          },
+          "soft": false,
+          "softCountdown": {
+            "current": 60, // Divide by 60 to get number of seconds
+            "original": 60
+          }
+        }
     };
 
     scene.scaleFactor = scene.height / scene.originNum; // This is declared outside of the original scene initialisation because it uses keys that aren't acessible before this time
@@ -60,12 +72,12 @@ $(document).ready(function() {
         "hordeSize": 50,
         "image": new Image(),
         "shift": 0,
-        "speed": 2, // Speed^-1 gives the actual speed. e.g speed: 5 = 1/5 updates per execution of the code
+        "speed": 1, // Speed^-1 gives the actual speed. e.g speed: 5 = 1/5 updates per execution of the code
         "startPos": scene.width,
         "moveTimer": 0,
         "totalFrames": 9,
         "xOrigin": scene.width + 5,
-        "xPos": 0,
+        "xPos": scene.width + 5,
         "yPos": scene.height * 0.85,
     };
 
@@ -102,6 +114,9 @@ $(document).ready(function() {
     });
 
     function resetBoulder() {
+        boulder.animate = false;
+        boulder.landingPosCalculated = false;
+
         boulder.xPos = boulder.xOrigin;
         boulder.yPos = boulder.yOrigin;
     }
@@ -135,26 +150,28 @@ $(document).ready(function() {
     function animate() {
         ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
 
-        horde.moveTimer --;
-        if (horde.moveTimer === 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
-            horde.moveTimer = horde.speed;
+        if (scene.reset.hard === false && scene.reset.soft === false) {
+          horde.moveTimer --;
+          if (horde.moveTimer === 0) { // This controls the speed of the horde by only running every 5th time the animate function runs
+              horde.moveTimer = horde.speed;
 
-            horde.xPos--;
-            horde.shift += horde.frameWidth + 1; // Shifts through sprite sheet (animates)
+              horde.xPos--;
+              horde.shift += horde.frameWidth + 1; // Shifts through sprite sheet (animates)
 
-            // Resets spritesheet. Loops through
-            if (horde.currentFrame == horde.totalFrames) {
-                horde.currentFrame = 0;
-                horde.shift = 0;
-            }
-            // Loops through each frame. frame properties stated in horde Object
-            horde.currentFrame++;
+              // Resets spritesheet. Loops through
+              if (horde.currentFrame == horde.totalFrames) {
+                  horde.currentFrame = 0;
+                  horde.shift = 0;
+              }
+              // Loops through each frame. frame properties stated in horde Object
+              horde.currentFrame++;
+          }
+
+          // Draw Horde ----------------------------------------------------------
+          ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+          ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+          ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.1, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
         }
-
-        // Draw Horde ----------------------------------------------------------
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.1, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
 
         // Animate boulder -----------------------------------------------------
         if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
@@ -172,32 +189,51 @@ $(document).ready(function() {
 
         // Soft reset ----------------------------------------------------------
         if (boulder.yPos + boulder.radius >= horde.yPos) {
+          scene.reset.soft = true;
+        }
+
+        if (scene.reset.soft === true) {
+          scene.reset.softCountdown.current--;
             explosion.timer --;
             if (explosion.timer === 0) {
-                explosion.timer = explosion.refresh;
-                explosion.shift += explosion.frameWidth + 1;
-                // Resets spritesheet. Loops through
-                if (explosion.currentFrame == explosion.totalFrames) {
-                    explosion.currentFrame = 0;
-                    explosion.shift = 0;
-                }
-                explosion.currentFrame++;
+              explosion.timer = explosion.refresh;
+              explosion.shift += explosion.frameWidth + 1;
+              // Resets spritesheet. Loops through
+              if (explosion.currentFrame == explosion.totalFrames) {
+                  explosion.currentFrame = 0;
+                  explosion.shift = 0;
+              }
+              explosion.currentFrame++;
             }
             ctx.drawImage(explosion.image, explosion.shift, 0, explosion.frameWidth, explosion.frameHeight, boulder.xPos, boulder.yPos, explosion.frameWidth * scene.scaleFactor, explosion.frameHeight * scene.scaleFactor);
+            boulder.animate = false;
+          }
+
+          if (scene.reset.softCountdown.current === 0) {
             horde.xPos = horde.xOrigin;
 
-            boulder.animate = false;
-            boulder.landingPosCalculated = false;
             resetBoulder();
-        }
+            scene.reset.softCountdown.current = scene.reset.softCountdown.original;
+            scene.reset.soft = false;
+          }
 
         // Hard reset ----------------------------------------------------------
         if (horde.xPos <= tower.width) { // Resets the horde if they reach the tower
+          scene.reset.hard = true;
+        }
+
+        if (scene.reset.hard === true) {
+          scene.reset.hardCountdown.current--;
+          $('.game-over').show();
+
+          if (scene.reset.hardCountdown.current === 0) {
             horde.xPos = horde.xOrigin;
 
-            boulder.animate = false;
-            boulder.landingPosCalculated = false;
             resetBoulder();
+            scene.reset.hard = false;
+            scene.reset.hardCountdown.current = scene.reset.hardCountdown.original;
+            $('.game-over').hide();
+          }
         }
 
         // Twitter trigger -----------------------------------------------------
