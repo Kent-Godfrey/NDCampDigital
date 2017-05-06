@@ -2,16 +2,13 @@ $(document).ready(function() {
     var c = $("#mainCanvas");
     var ctx = c.get(0).getContext("2d");
 
-    //Reference: Book name-  Foundation HTML Canvas for games and entertainment by Rob Hawkes
-    //p84-85
-    c.attr("height", $(window).get(0).innerHeight);
-    c.attr("width", $(window).get(0).innerWidth); // Set canvas to the width of browser window. get(0). Only works with CSS reset.
-
+    // Reference: Book name - Foundation HTML Canvas for games and entertainment by Rob Hawkes
+    // p84-85
     // Dynamic dimension feature
     $(window).resize(resizeCanvas);
-    function resizeCanvas() {
-        c.attr("height", $('.canvas-container').height());
-        c.attr("width", $('.canvas-container').width());
+    function resizeCanvas () {
+      c.attr("height", $('.canvas-container').height());
+      c.attr("width", $('.canvas-container').width());
     }
     resizeCanvas();
 
@@ -55,12 +52,7 @@ $(document).ready(function() {
         "xPos": 100,
         "yOffset": scene.height * 0.15,
         "yOrigin": 0,
-        "yPos": 0,
-
-        "trigger": {
-            "current": 0,
-            "previous": 0
-        }
+        "yPos": 0
     };
 
     var horde = {
@@ -78,7 +70,7 @@ $(document).ready(function() {
         "totalFrames": 9,
         "xOrigin": scene.width + 5,
         "xPos": scene.width + 5,
-        "yPos": scene.height * 0.85,
+        "yPos": scene.height * 0.85
     };
 
     var explosion = {
