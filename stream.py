@@ -1,4 +1,5 @@
 # Import code from the Twython module
+# All code written using the Twython documentation https://twython.readthedocs.io/en/latest/
 from twython import TwythonStreamer
 
 # Set API keys and Authorisation Keys
