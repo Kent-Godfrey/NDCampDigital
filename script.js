@@ -32,6 +32,7 @@ $(document).ready(function() {
     };
 
     scene.scaleFactor = scene.height / scene.originNum; // This is declared outside of the original scene initialisation because it uses keys that aren't acessible before this time
+    // Objects making use of this scale factor were decided as having an appropriate height in a window 826px high, hence scene.originNum = 826
 
     var boulder = {
         // All boulder properties are given here to prevent having to look elsewhere in the code if any changes are required
@@ -78,7 +79,7 @@ $(document).ready(function() {
         // https://www.w3schools.com/js/js_json_objects.asp
         "currentFrame": 0,
         "frameHeight": 96,
-        "frameWidth": 106,
+        "frameWidth": 156,
         "image": new Image(),
         "refresh": 3,
         "shift": 0,
@@ -131,7 +132,6 @@ $(document).ready(function() {
     // Animate the scene -------------------------------------------------------
     horde.moveTimer = horde.speed;
     explosion.timer = explosion.refresh;
-    // var sqrActPos = scene.width - horde.xPos + 5;
 
     var fileSize = 1;
     var previousFileSize = 1;
