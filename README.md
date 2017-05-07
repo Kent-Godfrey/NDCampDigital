@@ -16,4 +16,4 @@ The Northern Dabblers is just a silly team name we created as our class had mult
 
 **David Warringon** - [Personal Site](http://davidwarrington.co.uk "David Warrington - Portfolio Site"), [LinkedIn](https://linkedin.com/in/david-warrington "LinkedIn - David Warrington"), [Twitter](https://twitter.com/warringtondavid "Twitter - David Warrington").
 
-**Ben Whalley** - [Personal Site](link "hover text"), [LinkedIn](link "hover text"), [Twitter](link "hover text").
+**Ben Whalley** - [Personal Site](http://webdevben.co.uk/ "Ben Whalley - Portfolio Site"), [LinkedIn](https://www.linkedin.com/in/ben-whalley-561230107/ "LinkedIn - Ben Whalley"), [Twitter](https://twitter.com/benwhalley "Twitter - Ben Whalley").
