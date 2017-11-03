@@ -64,6 +64,7 @@ $(document).ready(function() {
         "frameWidth": 32.3,
         "hordeSize": 50,
         "image": new Image(),
+        "size": 3,
         "shift": 0,
         "speed": 1, // Speed^-1 gives the actual speed. e.g speed: 5 = 1/5 updates per execution of the code
         "startPos": scene.width,
@@ -129,6 +130,14 @@ $(document).ready(function() {
         boulder.currentFrame++;
     }
 
+    // Draw specified number of sprites
+    function drawHorde() {
+      for (var i = 0; i < horde.size; i++) {
+        var offset = scene.width * (i * 0.05);
+        ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + offset, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
+      }
+    }
+
     // Animate the scene -------------------------------------------------------
     horde.moveTimer = horde.speed;
     explosion.timer = explosion.refresh;
@@ -158,12 +167,10 @@ $(document).ready(function() {
               // Loops through each frame. frame properties stated in horde Object
               horde.currentFrame++;
           }
-
-          // Draw Horde ----------------------------------------------------------
-          ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-          ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.05, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
-          ctx.drawImage(horde.image, horde.shift, 0, horde.frameWidth, horde.frameHeight, horde.xPos + scene.width * 0.1, horde.yPos, horde.frameWidth * scene.scaleFactor, horde.frameHeight * scene.scaleFactor);
         }
+
+        // Draw Horde ----------------------------------------------------------
+        drawHorde();
 
         // Animate boulder -----------------------------------------------------
         if (boulder.animate) { // If the boulder animation property is true, the boulder will animate
