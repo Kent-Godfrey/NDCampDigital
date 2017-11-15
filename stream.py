@@ -30,5 +30,5 @@ stream = MyStreamer(APP_KEY, APP_SECRET,
 # Track keywords seperated by commas and
 # look for the most recent tweets (other arg is popular)
 stream.statuses.filter(
-    track='@WeAreSigma, #CampDigital, "Camp Digital", bbc',
+    track='#uclanopenday, #uclan, uclan',
     result_type='recent')
