@@ -50,7 +50,14 @@ const stream = io => {
              * Create an object from the data received in the event.
              * Edit this to filter the data you wish the receive.
              */
-            const tweet = event;
+            const tweet = {};
+            if (config.saved_data.length === 0) {
+                tweet = event;
+            } else {
+                config.saved_data.forEach(key => {
+                    tweet[key] = event[key];
+                });
+            }
 
             tweets.push(tweet);
             if (tweets.length > config.max_tweets) {
@@ -62,11 +69,16 @@ const stream = io => {
              * This allows the array to be easily readable, or "pretty-printed".
              * The callback function just throws any errors.
              */
-            fs.writeFile(output, JSON.stringify(tweets, null, 4), err => {
-                if (err) throw err;
-            });
-            console.log(`There are ${tweets.length} tweets in ${config.output}.\n`);
-
+            if (config.save_data) {
+                fs.writeFile(output, JSON.stringify(tweets, null, 4), err => {
+                    if (err) throw err;
+                });
+                console.log(`There are ${tweets.length} tweets in ${config.output}.\n`);
+            }
+            
+            /**
+             * Emit "tweet" event to connected sockets, passing along the tweet data
+             */
             io.emit('tweet', tweet);
         });
         

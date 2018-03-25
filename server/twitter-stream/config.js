@@ -18,6 +18,8 @@ const config = {
     "output"     : "tweets.json",
     "max_tweets" : 50,
     "params"     : { "track" : "javascript" },
+    "save_data"  : true,
+    "saved_data" : [ "text" ]
 }
 
 module.exports = config;

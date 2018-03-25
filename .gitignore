@@ -5,4 +5,4 @@ node_modules
 .env
 
 # Ignore Output files
-server/twitter-stream/output/*.json
+# server/twitter-stream/output/*.json
