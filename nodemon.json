@@ -1,0 +1,3 @@
+{
+    "ignore": ["server/twitter-stream/output/*.json"]
+}

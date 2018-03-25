@@ -1,5 +1,8 @@
 # Ignore Node Modules
 node_modules
 
-# Ignore environment files containing private info
+# Ignore Environment files containing private info
 .env
+
+# Ignore Output files
+server/twitter-stream/output/*.json

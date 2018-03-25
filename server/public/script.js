@@ -1,3 +1,9 @@
+var socket = io.connect();
+
+socket.on('tweet', data => {
+    console.log(data.text);
+});
+
 $(document).ready(function() {
     var c = $("#mainCanvas");
     var ctx = c.get(0).getContext("2d");
