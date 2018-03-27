@@ -1,10 +1,6 @@
-var socket = io.connect();
-
-socket.on('tweet', data => {
-    console.log(data.text);
-});
-
 $(document).ready(function() {
+    var socket = io.connect();
+
     var c = $("#mainCanvas");
     var ctx = c.get(0).getContext("2d");
 
@@ -148,12 +144,6 @@ $(document).ready(function() {
     horde.moveTimer = horde.speed;
     explosion.timer = explosion.refresh;
 
-    var fileSize = 1;
-    var previousFileSize = 1;
-    var triggerCountdown = 30;
-
-    var file = 0;
-
     function animate() {
         ctx.clearRect(0, 0, scene.width, scene.height); // Clears the canvas from the previous frame
 
@@ -244,22 +234,9 @@ $(document).ready(function() {
         }
 
         // Twitter trigger -----------------------------------------------------
-        triggerCountdown--;
-        if (triggerCountdown === 0) {
-            file = $.ajax({
-                url: "stream.json",
-                type: "HEAD",
-                success: function() {
-                    fileSize = file.getResponseHeader('Content-Length');
-                    // console.log(fileSize + ", " + previousFileSize);
-                    if (fileSize !== previousFileSize) {
-                        boulder.animate = true;
-                    }
-                    previousFileSize = fileSize;
-                }
-            });
-            triggerCountdown = 30;
-        }
+        socket.on('tweet', function(data) {
+            boulder.animate = true;
+        });
         requestAnimationFrame(animate);
     }
     animate();
