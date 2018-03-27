@@ -19,7 +19,13 @@ const config = {
     "max_tweets" : 50,
     "params"     : { "track" : "javascript" },
     "save_data"  : true,
-    "saved_data" : [ "text" ]
+    "saved_data" : []
+    // "saved_data" : [ 
+    //     "text", 
+    //     { 
+    //         "user": [ "id" ] 
+    //     } 
+    // ]
 }
 
 module.exports = config;

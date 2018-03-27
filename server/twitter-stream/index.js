@@ -3,6 +3,8 @@ const fs      = require('fs'),
       dotenv  = require('dotenv').config(),
       Twitter = require('twitter');
 
+const copyObj = require('../utils');
+
 const stream = io => {
 
     /**
@@ -50,13 +52,11 @@ const stream = io => {
              * Create an object from the data received in the event.
              * Edit this to filter the data you wish the receive.
              */
-            const tweet = {};
+            let tweet = {};
             if (config.saved_data.length === 0) {
                 tweet = event;
             } else {
-                config.saved_data.forEach(key => {
-                    tweet[key] = event[key];
-                });
+                tweet = copyObj(event, config.saved_data);
             }
 
             tweets.push(tweet);
